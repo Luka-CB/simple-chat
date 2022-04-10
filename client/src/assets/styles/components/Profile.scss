@@ -1,0 +1,209 @@
+.profile-container {
+  width: 100%;
+
+  .profile-info {
+    padding: 10px;
+    display: flex;
+    margin-top: 20px;
+
+    .avatar {
+      img {
+        width: 100px;
+        border-radius: 15px;
+        box-shadow: 1px 1px 5px rgb(0, 0, 0);
+      }
+    }
+
+    .info {
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .user {
+        #username {
+          color: $light;
+          font-weight: 600;
+          letter-spacing: 2px;
+        }
+
+        #email {
+          margin-top: 5px;
+          color: $light;
+          font-weight: 200;
+        }
+
+        #date {
+          margin-top: 5px;
+          color: $light;
+          font-weight: 200;
+        }
+      }
+
+      .update {
+        margin-top: 20px;
+        align-self: flex-end;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: 0.2s ease-in-out;
+
+        #text {
+          margin-right: 10px;
+          color: rgb(154, 159, 163);
+          transition: 0.2s ease-in-out;
+        }
+        #icon {
+          color: rgb(154, 159, 163);
+          font-size: 1.5rem;
+          transition: 0.3s ease-in;
+        }
+
+        &:hover {
+          #text {
+            color: $light;
+            text-decoration: underline;
+          }
+
+          #icon {
+            color: $light;
+          }
+        }
+      }
+    }
+  }
+
+  .friend-requests {
+    padding: 10px;
+
+    #title {
+      position: relative;
+      top: 10px;
+      left: 100px;
+      color: black;
+      background-color: $light;
+      width: 180px;
+      text-align: center;
+      padding: 0 10px;
+      border-radius: 20px;
+    }
+
+    .requests {
+      border-top: 1px solid $light;
+
+      .request-wrapper {
+        margin-top: 10px;
+        height: 47vh;
+        position: relative;
+
+        /* width */
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 5px grey;
+          border-radius: 10px;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+          background: $success;
+          border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+          background: $success-hover;
+        }
+
+        #no-reqs {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          color: $danger-hover;
+          text-shadow: 0 0 1px white;
+          letter-spacing: 2px;
+        }
+
+        .request {
+          width: 90%;
+          display: grid;
+          grid-template-columns: 2fr 1fr 2fr;
+          align-items: center;
+          justify-items: center;
+          margin: 0 auto;
+          margin-top: 20px;
+
+          .req-col-1 {
+            justify-self: start;
+            display: flex;
+            align-items: center;
+
+            #img {
+              width: 40px;
+              border-radius: 50%;
+              box-shadow: 0 0 5px black;
+            }
+
+            #name {
+              margin-left: 10px;
+              color: $light;
+              font-weight: 400;
+              word-break: break-all;
+            }
+          }
+
+          .req-col-2 {
+            #date {
+              color: $light-trans;
+              font-weight: 200;
+            }
+          }
+
+          .req-col-3 {
+            justify-self: end;
+            display: flex;
+
+            #accept-btn {
+              padding: 3px 10px;
+              border-radius: 10px;
+              margin-right: 15px;
+              background-color: $success;
+              box-shadow: 1px 1px 5px $success-trans;
+              color: rgb(174, 193, 211);
+              cursor: pointer;
+              font-family: inherit;
+              transition: 0.2s ease-in-out;
+
+              &:hover {
+                box-shadow: 1px 1px 5px $success-hover;
+                background-color: $success-hover;
+                color: $light;
+              }
+            }
+
+            #remove-btn {
+              padding: 3px 10px;
+              border-radius: 10px;
+              background-color: $danger;
+              box-shadow: 1px 1px 5px $danger-trans;
+              color: rgb(174, 193, 211);
+              cursor: pointer;
+              font-family: inherit;
+              transition: 0.2s ease-in-out;
+
+              &:hover {
+                box-shadow: 1px 1px 5px $danger-hover;
+                background-color: $danger-hover;
+                color: $light;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

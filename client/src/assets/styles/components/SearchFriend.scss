@@ -1,0 +1,191 @@
+.search {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  .search-input {
+    border: 2px solid $light;
+    width: 70%;
+    height: 50px;
+    display: flex;
+    border-radius: 10px;
+    -webkit-box-shadow: -1px 3px 35px 15px rgba(0, 0, 0, 0.35);
+    box-shadow: -1px 3px 35px 15px rgba(0, 0, 0, 0.35);
+
+    input {
+      width: 90%;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      font-size: 1.5rem;
+      text-indent: 10px;
+      color: $light;
+    }
+
+    .search-btn {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: $light;
+    }
+  }
+
+  .search-result-window {
+    position: absolute;
+    margin-top: 20px;
+    background-color: $light;
+    top: 100%;
+    width: 100%;
+    height: 80vh;
+    background-color: $light-trans;
+    backdrop-filter: blur(18px);
+    z-index: 5;
+
+    .header {
+      display: flex;
+      padding: 5px;
+      justify-content: space-between;
+      align-items: center;
+
+      .found {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(66, 67, 68);
+
+        address {
+          margin: 0 5px;
+          font-size: 1.5rem;
+          font-weight: 400;
+          color: $light;
+          text-shadow: 1px 1px 1px black;
+        }
+      }
+
+      .close {
+        font-size: 1.5rem;
+        color: $danger;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+
+        &:hover {
+          color: $danger-hover;
+        }
+      }
+    }
+
+    .result {
+      padding: 20px;
+      height: 73vh;
+      overflow-y: scroll;
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px rgb(59, 59, 59);
+        border-radius: 10px;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: $secondary;
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: $secondary-hover;
+      }
+
+      .user {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:not(:first-child) {
+          margin-top: 20px;
+        }
+
+        .info {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 70px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px black;
+          }
+
+          .username {
+            margin-left: 10px;
+          }
+        }
+
+        .actions {
+          .friends-btn {
+            background-color: $secondary-trans;
+            padding: 5px 10px;
+            border-radius: 10px;
+            color: $light-trans;
+            width: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            transition: 0.2s ease-in-out;
+
+            .icon {
+              margin-right: 5px;
+              color: $light-trans;
+            }
+          }
+
+          .already-sent-btn {
+            background-color: $secondary-trans;
+            padding: 5px 10px;
+            border-radius: 10px;
+            color: $light-trans;
+            width: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            transition: 0.2s ease-in-out;
+          }
+
+          .add-btn {
+            background-color: $secondary;
+            padding: 5px 10px;
+            border-radius: 10px;
+            color: $light-trans;
+            width: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+
+            .icon {
+              margin-right: 5px;
+              color: $light;
+            }
+
+            &:hover {
+              background-color: $secondary-hover;
+              color: $light;
+              box-shadow: 0 0 3px $secondary-hover;
+            }
+          }
+        }
+      }
+    }
+  }
+}

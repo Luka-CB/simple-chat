@@ -1,0 +1,127 @@
+.friends {
+  margin: 0 auto;
+  width: 95%;
+
+  .count {
+    position: relative;
+    top: 30px;
+    left: 100px;
+    background-color: $light;
+    width: 150px;
+    text-align: center;
+    border-radius: 15px;
+    padding: 0 10px;
+    z-index: 1;
+  }
+
+  .friends-wrapper {
+    margin-top: 20px;
+    border-top: 1px solid $light;
+    height: 67vh;
+    position: relative;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px grey;
+      border-radius: 10px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: $success;
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: $success-hover;
+    }
+
+    #no-friends {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: $danger-hover;
+      text-shadow: 0 0 1px $light;
+      letter-spacing: 3px;
+    }
+
+    .friend {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      align-items: center;
+
+      .col-1 {
+        display: flex;
+        align-items: center;
+
+        .image {
+          position: relative;
+
+          img {
+            width: 60px;
+            border-radius: 50%;
+          }
+
+          #dot-online {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgb(62, 253, 62);
+            box-shadow: 0 0 5px rgb(35, 245, 35);
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 3px;
+          }
+          #dot-offline {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgb(179, 4, 19);
+            box-shadow: 0 0 5px rgb(180, 2, 47);
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 3px;
+          }
+        }
+
+        h3 {
+          color: $light;
+          margin-left: 10px;
+          font-weight: 400;
+        }
+      }
+
+      .col-2 {
+        button {
+          border: none;
+          outline: none;
+          padding: 3px 10px;
+          border-radius: 5px;
+          margin-right: 10px;
+          background-color: $success;
+          box-shadow: 1px 1px 10px $success-trans;
+          color: rgb(174, 193, 211);
+          cursor: pointer;
+          font-family: inherit;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            box-shadow: 1px 1px 10px $success-hover;
+            background-color: $success-hover;
+            color: $light;
+          }
+        }
+      }
+    }
+  }
+}

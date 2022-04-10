@@ -1,0 +1,372 @@
+.groups-container {
+  padding: 10px;
+  position: relative;
+  margin-top: 5px;
+
+  .create-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px;
+
+    input {
+      width: 40%;
+      background-color: transparent;
+      border: 1px solid $light;
+      padding: 5px;
+      border-radius: 10px;
+      outline: none;
+      font-family: inherit;
+      transition: 0.2s ease-in-out;
+
+      &::placeholder {
+        color: rgb(164, 167, 168);
+      }
+
+      &:focus {
+        background-color: $light;
+      }
+    }
+
+    #inputError {
+      border-color: $danger;
+      background-color: transparent;
+
+      &::placeholder {
+        color: rgb(255, 93, 93);
+      }
+    }
+
+    #inputSuccess {
+      border-color: $success;
+      background-color: transparent;
+
+      &::placeholder {
+        color: rgb(93, 255, 128);
+      }
+    }
+
+    #cr-btn {
+      border: none;
+      outline: none;
+      width: 15%;
+      border-radius: 10px;
+      margin-left: 5px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $light;
+      }
+    }
+  }
+
+  .groups-section {
+    #gr-count {
+      background-color: $light;
+      width: 120px;
+      text-align: center;
+      border-radius: 10px;
+      position: relative;
+      top: 9px;
+      left: 50px;
+    }
+
+    .groups-wrapper {
+      border-top: 1px solid rgb(209, 209, 209);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 20px;
+
+      .search-group {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border: 1px solid $light;
+        width: 250px;
+        height: 30px;
+        margin: 0 auto;
+        margin-top: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 35px rgba(41, 41, 41, 0.801);
+        position: relative;
+
+        #search-icon {
+          flex: 1;
+          height: 100%;
+          color: $light;
+        }
+
+        input {
+          height: 100%;
+          width: 90%;
+          border: none;
+          outline: none;
+          background-color: transparent;
+          text-indent: 10px;
+          font-family: inherit;
+          color: $light;
+        }
+
+        .search-res {
+          background-color: $light-trans;
+          backdrop-filter: blur(8px);
+          position: absolute;
+          width: 100%;
+          top: 100%;
+          height: 50vh;
+          margin-top: 5px;
+          border-radius: 5px;
+          z-index: 1;
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.575);
+
+          .result-wrapper {
+            padding: 10px;
+            height: 50vh;
+            overflow-y: scroll;
+            position: relative;
+
+            /* width */
+            &::-webkit-scrollbar {
+              width: 5px;
+            }
+
+            /* Track */
+            &::-webkit-scrollbar-track {
+              box-shadow: inset 0 0 5px rgb(68, 68, 68);
+              border-radius: 10px;
+            }
+
+            /* Handle */
+            &::-webkit-scrollbar-thumb {
+              background: rgb(58, 58, 58);
+              border-radius: 10px;
+            }
+
+            /* Handle on hover */
+            &::-webkit-scrollbar-thumb:hover {
+              background: rgb(68, 68, 68);
+            }
+
+            #result-count {
+              font-size: 0.8rem;
+              color: rgb(56, 56, 56);
+              text-shadow: 0 0 1px black;
+              letter-spacing: 2px;
+
+              span {
+                color: black;
+                font-size: 1rem;
+              }
+            }
+
+            #no-match {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+              color: $danger;
+              font-weight: 600;
+              letter-spacing: 2px;
+            }
+
+            .result {
+              display: flex;
+              margin-top: 20px;
+              align-items: center;
+
+              .image {
+                width: 30%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                  width: 40px;
+                  border-radius: 50%;
+                  box-shadow: 0 0 5px black;
+                }
+              }
+
+              .info {
+                flex: 1;
+
+                #name {
+                  letter-spacing: 2px;
+                  text-shadow: 1px 0 1px black;
+                  font-weight: 400;
+                }
+
+                #count {
+                  letter-spacing: 1px;
+                  font-weight: 500;
+                }
+
+                #sent-btn {
+                  border: none;
+                  outline: none;
+                  width: 50%;
+                  padding: 2px 5px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-around;
+                  border-radius: 5px;
+                  margin-top: 5px;
+                  color: rgb(117, 165, 139);
+                  background-color: rgb(20, 41, 20);
+                  transition: 0.2s ease-in-out;
+                  box-shadow: 0 0 3px rgb(20, 41, 20);
+                  cursor: pointer;
+
+                  #check-icon {
+                    font-size: 1.1rem;
+                  }
+
+                  span {
+                    font-size: 0.7rem;
+                  }
+
+                  &:hover {
+                    background-color: rgb(8, 143, 8);
+                    color: rgb(181, 252, 213);
+                    box-shadow: 0 0 5px rgb(8, 143, 8);
+                  }
+                }
+
+                #join-btn {
+                  border: none;
+                  outline: none;
+                  width: 40%;
+                  padding: 2px 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-around;
+                  border-radius: 5px;
+                  margin-top: 5px;
+                  color: rgb(194, 194, 194);
+                  background-color: $secondary;
+                  cursor: pointer;
+                  transition: 0.2s ease-in-out;
+                  box-shadow: 0 0 3px $secondary;
+
+                  #join-icon {
+                    font-size: 1.1rem;
+                  }
+                  span {
+                    font-size: 0.7rem;
+                  }
+
+                  &:hover {
+                    background-color: $secondary-hover;
+                    color: $light;
+                    box-shadow: 0 0 5px $secondary-hover;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .groups {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 30px;
+        height: 53vh;
+        padding: 0 30px;
+        position: relative;
+
+        /* width */
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 5px grey;
+          border-radius: 10px;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+          background: $success;
+          border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+          background: $success-hover;
+        }
+
+        #no-groups {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: $danger-hover;
+          text-shadow: 0 0 1px $light;
+          letter-spacing: 3px;
+        }
+
+        .group {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 20px;
+
+          .info {
+            #group-name {
+              color: $light;
+              letter-spacing: 3px;
+              text-shadow: 1px 1px 1px black;
+              cursor: pointer;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            #members {
+              margin-top: 5px;
+              color: rgb(170, 170, 170);
+              font-weight: 400;
+            }
+          }
+
+          .image {
+            position: relative;
+
+            img {
+              width: 40px;
+              border-radius: 50%;
+              box-shadow: 0 0 25px rgb(41, 41, 41);
+              background-color: rgb(147, 179, 196);
+            }
+
+            #online {
+              position: absolute;
+              width: 7px;
+              height: 7px;
+              background-color: rgb(0, 197, 0);
+              top: 0;
+              right: 10%;
+              border-radius: 50%;
+              box-shadow: 0 0 3px rgb(7, 238, 7);
+            }
+
+            #offline {
+              position: absolute;
+              width: 7px;
+              height: 7px;
+              background-color: $danger;
+              top: 0;
+              right: 10%;
+              border-radius: 50%;
+              box-shadow: 0 0 3px $danger-hover;
+            }
+          }
+        }
+      }
+    }
+  }
+}

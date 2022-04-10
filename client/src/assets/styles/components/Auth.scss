@@ -1,0 +1,171 @@
+.auth-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+
+  .logo {
+    padding: 10px;
+    cursor: pointer;
+    color: $light;
+    font-size: 2rem;
+  }
+
+  .image {
+    width: 700px;
+    height: 700px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10%;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .auth {
+    background-color: #09647421;
+    backdrop-filter: blur(12px);
+    border-top: 6px solid #096474;
+    border-bottom: 6px solid #096474;
+    border-radius: 20px;
+    box-shadow: 3px 3px 20px #09647431;
+    width: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    min-height: 70vh;
+
+    .oauth {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+
+      .oauth_btn {
+        display: flex;
+        border: 2px solid #096474;
+        width: 300px;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(219, 228, 236);
+        margin-top: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+        box-shadow: 1px 1px 40px rgba(0, 0, 0, 0.336);
+
+        .icon {
+          font-size: 1.5rem;
+          margin-right: 10px;
+
+          .icon_fc {
+            color: rgb(32, 146, 253);
+          }
+        }
+
+        &:hover {
+          background-color: $light;
+        }
+      }
+    }
+
+    .or {
+      text-align: center;
+      margin-top: 30px;
+      color: $light;
+    }
+
+    .custom_auth {
+      margin-top: 50px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h5 {
+        color: rgb(209, 209, 209);
+        letter-spacing: 2px;
+
+        span {
+          font-size: 1.2rem;
+          font-style: italic;
+          color: $light;
+          text-decoration: underline;
+        }
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+        margin-top: 10px;
+
+        input {
+          padding: 10px;
+          border: none;
+          outline: none;
+          background-color: rgb(184, 191, 197);
+          font-size: 1.2rem;
+          border-radius: 20px;
+          box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.253);
+          transition: 0.2s ease-in-out;
+          font-family: inherit;
+
+          &:focus {
+            background-color: $light;
+          }
+
+          &:not(:first-child) {
+            margin-top: 20px;
+          }
+        }
+
+        button {
+          margin-top: 20px;
+          width: 250px;
+          align-self: center;
+          border: none;
+          outline: none;
+          padding: 7px;
+          font-size: 1.1rem;
+          font-family: inherit;
+          border-radius: 20px;
+          background-color: rgb(219, 228, 236);
+          transition: 0.2s ease-in-out;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $light;
+          }
+        }
+      }
+
+      .info {
+        margin-top: 30px;
+        align-self: flex-start;
+        padding: 20px;
+        display: flex;
+
+        h4 {
+          color: rgba(255, 255, 255, 0.438);
+          letter-spacing: 2px;
+        }
+
+        a {
+          color: rgba(255, 255, 255, 0.74);
+          margin-left: 10px;
+          text-decoration: underline;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            color: $light;
+          }
+        }
+      }
+    }
+  }
+}

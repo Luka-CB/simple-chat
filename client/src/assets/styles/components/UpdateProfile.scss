@@ -1,0 +1,232 @@
+.update-profile-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $light-trans;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(18px);
+
+  .close-icon {
+    position: absolute;
+    right: 0;
+    margin: 10px;
+    font-size: 2rem;
+    color: $danger;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      color: $danger-hover;
+    }
+  }
+
+  .wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .del-account {
+      width: 90%;
+      margin: 20px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      #del-text {
+        color: $danger;
+        text-shadow: 1px 1px 1px rgb(199, 180, 180);
+        letter-spacing: 2px;
+        font-style: italic;
+      }
+      #middle {
+        color: $danger;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px rgb(199, 180, 180);
+        letter-spacing: 2px;
+        font-size: 1.3rem;
+      }
+
+      .del-btn {
+        background-color: $danger;
+        width: 100px;
+        padding: 5px 0;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+
+        #del-icon {
+          margin-right: 10px;
+          color: rgb(204, 188, 188);
+          transition: 0.2s ease-in-out;
+        }
+        #btn-text {
+          color: rgb(204, 188, 188);
+          transition: 0.2s ease-in-out;
+        }
+
+        &:hover {
+          background-color: $danger-hover;
+
+          #del-icon {
+            color: $light;
+          }
+          #btn-text {
+            color: $light;
+          }
+        }
+      }
+    }
+
+    .upd-account {
+      width: 90%;
+      margin: 20px auto;
+
+      #upd-text {
+        text-align: center;
+        text-shadow: 1px 1px 1px black;
+        font-weight: 500;
+        letter-spacing: 2px;
+      }
+
+      form {
+        margin-top: 20px;
+        width: 100%;
+
+        .input-box {
+          display: flex;
+          flex-direction: column;
+          margin-top: 20px;
+
+          label {
+            padding: 5px;
+            text-shadow: 1px 1px 1px black;
+            font-weight: 500;
+            letter-spacing: 2px;
+          }
+
+          input {
+            padding: 10px;
+            font-size: 1.1rem;
+            border: 1px solid $success;
+            outline: none;
+            background-color: $light-trans;
+            border-radius: 15px;
+            transition: 0.3s ease-in-out;
+
+            &:focus {
+              background-color: $light;
+            }
+          }
+        }
+
+        #upd-btn {
+          margin-top: 20px;
+          width: 250px;
+          padding: 5px;
+          border: none;
+          outline: none;
+          background-color: $success;
+          color: rgb(160, 214, 202);
+          border-radius: 15px;
+          font-family: inherit;
+          font-size: 1rem;
+          box-shadow: 0 0 5px $success;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            color: $light;
+            background-color: $success-hover;
+            box-shadow: 0 0 5px $success-hover;
+          }
+        }
+      }
+    }
+  }
+
+  .del-warning-bg {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    height: 100%;
+
+    .del-warning-container {
+      background-color: $light-trans;
+      backdrop-filter: blur(18px);
+      width: 70%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      border: 2px solid $danger;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgb(53, 52, 52);
+
+      #warn-text {
+        text-align: center;
+        font-size: 1.1rem;
+        color: $danger;
+
+        b {
+          font-style: italic;
+          font-size: 1.5rem;
+          letter-spacing: 3px;
+        }
+      }
+
+      .btns {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 90%;
+        margin: auto;
+        margin-top: 30px;
+
+        #yes {
+          border: none;
+          outline: none;
+          background-color: $danger;
+          color: rgb(211, 205, 205);
+          width: 150px;
+          padding: 5px;
+          font-family: inherit;
+          border-radius: 15px;
+          font-size: 1.1rem;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            color: $light;
+            background-color: $danger-hover;
+          }
+        }
+
+        #no {
+          border: none;
+          outline: none;
+          background-color: $secondary;
+          color: rgb(211, 205, 205);
+          width: 150px;
+          padding: 5px;
+          font-family: inherit;
+          border-radius: 15px;
+          font-size: 1.1rem;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            color: $light;
+            background-color: $secondary-hover;
+          }
+        }
+      }
+    }
+  }
+}
