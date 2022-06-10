@@ -1,5 +1,5 @@
 import DummyProfilePic from "../assets/images/dummy-profile-pic.png";
-import { BsGear } from "react-icons/bs";
+import { BsGear, BsPencilFill } from "react-icons/bs";
 import UpdateProfile from "./UpdateProfile";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/users";
@@ -55,72 +55,77 @@ const Profile = () => {
   };
 
   return (
-    <div className='profile-container'>
-      <div className='profile-info'>
-        <div className='avatar'>
-          {profileInfo?.avatar ? (
-            <img src={profileInfo.avatar} alt={profileInfo.username} />
-          ) : (
-            <img src={DummyProfilePic} alt='Dummy Profile Picture' />
-          )}
-        </div>
-        <div className='info'>
-          <div className='user'>
-            <h3 id='username'>{profileInfo.username}</h3>
-            {profileInfo?.email ? (
-              <address id='email'>( {profileInfo.email} )</address>
+    <div className="profile-container">
+      <div className="profile-info">
+        <div className="avatar">
+          <div className="image">
+            {profileInfo?.avatar ? (
+              <img src={profileInfo.avatar} alt={profileInfo.username} />
             ) : (
-              <address id='email'>( no email address )</address>
+              <img src={DummyProfilePic} alt="Dummy Profile Picture" />
             )}
-            <p id='date'>Registered {profileInfo.createdAt} ago</p>
+            <div className="edit-avatar" title="Edit Profile Picture">
+              <BsPencilFill id="pencil" />
+            </div>
+          </div>
+        </div>
+        <div className="info">
+          <div className="user">
+            <h3 id="username">{profileInfo.username}</h3>
+            {profileInfo?.email ? (
+              <address id="email">( {profileInfo.email} )</address>
+            ) : (
+              <address id="email">( no email address )</address>
+            )}
+            <p id="date">Registered {profileInfo.createdAt} ago</p>
           </div>
           {!user?.providerId && (
-            <div onClick={() => setShowUpdateProfile(true)} className='update'>
-              <span id='text'>Update Profile</span>
-              <BsGear id='icon' />
+            <div onClick={() => setShowUpdateProfile(true)} className="update">
+              <span id="text">Update Profile</span>
+              <BsGear id="icon" />
             </div>
           )}
         </div>
       </div>
       <hr />
-      <div className='friend-requests'>
-        <h4 id='title'>Friend Requests: {reqCount}</h4>
-        <div className='requests'>
+      <div className="friend-requests">
+        <h4 id="title">Friend Requests: {reqCount}</h4>
+        <div className="requests">
           <div
-            className='request-wrapper'
+            className="request-wrapper"
             style={{
               overflowY: requests?.length > 6 ? "scroll" : "initial",
             }}
           >
             {/* {getReqLoading && <p>Loading...</p>} */}
-            {reqMsg && <p id='no-reqs'>{reqMsg}</p>}
+            {reqMsg && <p id="no-reqs">{reqMsg}</p>}
             {requests?.map((req, i) => (
-              <div className='request' key={req._id}>
-                <div className='req-col-1'>
+              <div className="request" key={req._id}>
+                <div className="req-col-1">
                   {req.from.avatar ? (
                     <img src={req.from.avatar} alt={req.from.username} />
                   ) : (
                     <img
-                      id='img'
+                      id="img"
                       src={DummyProfilePic}
-                      alt='Dummy profile pic'
+                      alt="Dummy profile pic"
                     />
                   )}
-                  <h5 id='name'>{req.from.username}</h5>
+                  <h5 id="name">{req.from.username}</h5>
                 </div>
-                <div className='req-col-2'>
-                  <h5 id='date'>{req.createdAt} ago</h5>
+                <div className="req-col-2">
+                  <h5 id="date">{req.createdAt} ago</h5>
                 </div>
-                <div className='req-col-3'>
+                <div className="req-col-3">
                   <div
                     onClick={() => acceptRequestHandler(req._id, i)}
-                    id='accept-btn'
+                    id="accept-btn"
                   >
                     {accIndex === i ? "..." : "Accept"}
                   </div>
                   <div
                     onClick={() => rejectRequestHandler(req._id, i)}
-                    id='remove-btn'
+                    id="remove-btn"
                   >
                     {rejIndex === i ? "..." : "Reject"}
                   </div>

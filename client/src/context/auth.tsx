@@ -62,7 +62,7 @@ const AuthProvider = ({ children }: childrenIFace) => {
   }, []);
 
   const getOauthUser = async () => {
-    const res = await fetch(`/auth/user-data`, {
+    const res = await fetch(`/api/auth/user-data`, {
       method: "GET",
       credentials: "include",
     });
@@ -78,6 +78,7 @@ const AuthProvider = ({ children }: childrenIFace) => {
   };
 
   const register = async (userData: registerUserIFace) => {
+    console.log(userData);
     try {
       setRegLoading(true);
       setRegError(null);

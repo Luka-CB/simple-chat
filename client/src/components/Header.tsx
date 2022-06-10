@@ -18,28 +18,28 @@ const Header = () => {
   }, [logoutSuccess]);
 
   const logoutOauth = () => {
-    window.open("http://localhost:5000/auth/logout", "_self");
+    window.open("http://localhost:5000/api/auth/logout", "_self");
     localStorage.removeItem("userInfo");
   };
 
   return (
-    <div className='header'>
+    <div className="header">
       <h1>Logo App Name</h1>
       {user?.id ? (
-        <div className='loggedin'>
+        <div className="loggedin">
           <p onClick={user?.providerId ? logoutOauth : () => logout()}>
             sign out
           </p>
-          <div className='profile_pic'>
+          <div className="profile_pic">
             {user?.avatar ? (
               <img src={user.avatar} alt={user.username} />
             ) : (
-              <img src={DummyProfPic} alt='Dummy Profile Picture' />
+              <img src={DummyProfPic} alt="Dummy Profile Picture" />
             )}
           </div>
         </div>
       ) : (
-        <div className='loggedout'>
+        <div className="loggedout">
           <Link to={"/signin"}>Sign In</Link>
         </div>
       )}

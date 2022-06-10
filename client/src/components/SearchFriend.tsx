@@ -40,23 +40,23 @@ const SearchFriend = () => {
   }, [crReqSuccess]);
 
   return (
-    <div className='search'>
-      <div className='search-input'>
+    <div className="search">
+      <div className="search-input">
         <input
-          type='text'
-          placeholder='Search for friends or groups'
+          type="text"
+          placeholder="Search for friends"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <div className='search-btn'>
+        <div className="search-btn">
           <FaSearch />
         </div>
       </div>
 
       {showSearchResult && (
-        <div className='search-result-window'>
-          <div className='header'>
-            <h3 className='found'>
+        <div className="search-result-window">
+          <div className="header">
+            <h3 className="found">
               Found: <address>{searchResCount}</address>
             </h3>
             <FaTimesCircle
@@ -64,43 +64,43 @@ const SearchFriend = () => {
                 setShowSearchResult(false);
                 setQuery("");
               }}
-              className='close'
+              className="close"
             />
           </div>
           <hr />
-          <div className='result'>
+          <div className="result">
             {searchLoading && <p>Loading...</p>}
             {searchResult?.map((user) => (
-              <div className='user' key={user._id}>
-                <div className='info'>
+              <div className="user" key={user._id}>
+                <div className="info">
                   {user.avatar ? (
-                    <img src={user.avatar} alt='User Avatar' />
+                    <img src={user.avatar} alt="User Avatar" />
                   ) : (
-                    <img src={DummyProfilePic} alt='Dummy Profile Picture' />
+                    <img src={DummyProfilePic} alt="Dummy Profile Picture" />
                   )}
-                  <h3 className='username'>{user.username}</h3>
+                  <h3 className="username">{user.username}</h3>
                 </div>
-                <div className='actions'>
+                <div className="actions">
                   {user.isFriend ? (
-                    <div className='friends-btn'>
-                      <FaUserFriends className='icon' />
+                    <div className="friends-btn">
+                      <FaUserFriends className="icon" />
                       <span>Friend</span>
                     </div>
                   ) : user.hasSentRequest ? (
-                    <div className='already-sent-btn'>Sent Request</div>
+                    <div className="already-sent-btn">Sent Request</div>
                   ) : (
                     <div
                       onClick={() => createRequest(user._id)}
-                      className='add-btn'
+                      className="add-btn"
                     >
                       {user.hasRequest ? (
                         <>
-                          <FaUserMinus className='icon' />
+                          <FaUserMinus className="icon" />
                           <span>Request Sent</span>
                         </>
                       ) : (
                         <>
-                          <FaUserPlus className='icon' />
+                          <FaUserPlus className="icon" />
                           <span>Add Friend</span>
                         </>
                       )}

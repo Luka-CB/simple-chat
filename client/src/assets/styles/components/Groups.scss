@@ -15,6 +15,8 @@
       border: 1px solid $light;
       padding: 5px;
       border-radius: 10px;
+      border-top-right-radius: unset;
+      border-bottom-right-radius: unset;
       outline: none;
       font-family: inherit;
       transition: 0.2s ease-in-out;
@@ -49,9 +51,10 @@
     #cr-btn {
       border: none;
       outline: none;
-      width: 15%;
       border-radius: 10px;
-      margin-left: 5px;
+      border-top-left-radius: unset;
+      border-bottom-left-radius: unset;
+      padding: 0 10px;
       font-family: inherit;
       cursor: pointer;
       transition: 0.2s ease-in-out;

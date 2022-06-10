@@ -5,6 +5,7 @@ import { ChatContext } from "../context/chat";
 import { FriendContext } from "../context/friend";
 import { SocketContext } from "../context/socket";
 import { propsIFace } from "./Profile";
+import SearchFriend from "./SearchFriend";
 
 const Friends: React.FC<propsIFace> = ({ isActive }) => {
   const [frIndex, setFrIndex] = useState<number | null>(null);
@@ -53,50 +54,51 @@ const Friends: React.FC<propsIFace> = ({ isActive }) => {
   };
 
   return (
-    <div className='friends'>
-      <div className='count'>
+    <div className="friends">
+      <SearchFriend />
+      <div className="count">
         <h4>Friends: {friendCount}</h4>
       </div>
       <div
-        className='friends-wrapper'
+        className="friends-wrapper"
         style={{
           overflowY: friends?.length > 7 ? "scroll" : "initial",
         }}
       >
         {getFriendsLoading && <p>Loading...</p>}
-        {friendCount === 0 && <p id='no-friends'>No Friends!</p>}
+        {friendCount === 0 && <p id="no-friends">No Friends!</p>}
         {friends?.map((friend, i) => {
           const isOnline = usersOnline?.some(
             (user) => user.userId === friend._id
           );
 
           return (
-            <div className='friend' key={friend._id}>
-              <div className='col-1'>
-                <div className='image'>
+            <div className="friend" key={friend._id}>
+              <div className="col-1">
+                <div className="image">
                   {friend.avatar ? (
                     <img src={friend.avatar} alt={friend.username} />
                   ) : (
-                    <img src={DummyProfilePic} alt='Dummy Profile Picture' />
+                    <img src={DummyProfilePic} alt="Dummy Profile Picture" />
                   )}
                   {isOnline ? (
-                    <div id='dot-online'></div>
+                    <div id="dot-online"></div>
                   ) : (
-                    <div id='dot-offline'></div>
+                    <div id="dot-offline"></div>
                   )}
                 </div>
                 <h3>{friend.username}</h3>
               </div>
-              <div className='col-2'>
+              <div className="col-2">
                 <button
                   onClick={() => unfriendHandler(friend._id, i)}
-                  className='unfriend-btn'
+                  className="unfriend-btn"
                 >
                   {frIndex === i ? "....." : "Unfriend"}
                 </button>
                 <button
                   onClick={() => startChatHandler(friend._id, i)}
-                  className='start-chat-btn'
+                  className="start-chat-btn"
                 >
                   {startChatIndex === i ? "...." : "Chat"}
                 </button>
