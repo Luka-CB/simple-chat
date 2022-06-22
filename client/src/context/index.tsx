@@ -1,3 +1,4 @@
+import StateProvider from "./states";
 import AuthProvider from "./auth";
 import UserProvider from "./users";
 import RequestProvider from "./request";
@@ -9,21 +10,23 @@ import GroupProvider from "./group";
 
 const ContextProvider = ({ children }: any) => {
   return (
-    <AuthProvider>
-      <UserProvider>
-        <RequestProvider>
-          <SocketProvider>
-            <FriendProvider>
-              <GroupProvider>
-                <ChatProvider>
-                  <MessageProvider>{children}</MessageProvider>
-                </ChatProvider>
-              </GroupProvider>
-            </FriendProvider>
-          </SocketProvider>
-        </RequestProvider>
-      </UserProvider>
-    </AuthProvider>
+    <StateProvider>
+      <AuthProvider>
+        <UserProvider>
+          <RequestProvider>
+            <SocketProvider>
+              <FriendProvider>
+                <GroupProvider>
+                  <ChatProvider>
+                    <MessageProvider>{children}</MessageProvider>
+                  </ChatProvider>
+                </GroupProvider>
+              </FriendProvider>
+            </SocketProvider>
+          </RequestProvider>
+        </UserProvider>
+      </AuthProvider>
+    </StateProvider>
   );
 };
 

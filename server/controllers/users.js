@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const cloudinary = require("../config/cloudinary");
 const cookie = require("cookie");
 const generateToken = require("../config/utils");
 const User = require("../models/User");
@@ -141,6 +142,46 @@ const updateProfile = asyncHandler(async (req, res) => {
   res.status(200).send("success");
 });
 
+// UPDATE PROFILE AVATAR
+// ROUTE - PUT - /api/users/profile/update_prof_img
+// PRIVATE - USER
+const updateProfileImage = asyncHandler(async (req, res) => {
+  const { imageUrl, publicId } = req.body;
+
+  const user = await User.findOne({ _id: req.user._id }, "avatar imageId");
+
+  if (user.avatar && user.imageId) {
+    await cloudinary.uploader.destroy(user.imageId);
+  }
+
+  const updatedUser = await User.updateOne(
+    { _id: req.user._id },
+    { avatar: imageUrl, imageId: publicId }
+  );
+
+  if (!updatedUser) throw new Error("Update Avatar Request has Failed!");
+
+  res.status(200).send("success");
+});
+
+// REMOVE PROVILE AVATAR
+// ROUTE - PUT - /api/users/profile/remove_prof_img
+// PRIVATE - USER
+const removeProfileImage = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ _id: req.user._id }, "imageId");
+
+  await cloudinary.uploader.destroy(user.imageId);
+
+  const updatedUser = await User.updateOne(
+    { _id: req.user._id },
+    { avatar: "", imageId: "" }
+  );
+
+  if (!updatedUser) throw new Error("Update User Profile Request has Failed!");
+
+  res.status(200).send("success");
+});
+
 // LOGOUT USER
 // ROUTE - GET - /api/users/logout
 // PRIVATE - USER
@@ -165,5 +206,7 @@ module.exports = {
   searchUser,
   getProfile,
   updateProfile,
+  updateProfileImage,
+  removeProfileImage,
   logout,
 };

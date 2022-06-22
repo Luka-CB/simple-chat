@@ -44,6 +44,8 @@ interface reqContextIFace {
   crReqSuccess: boolean;
   getReqLoading: boolean;
   accReqSuccess: boolean;
+  accReqLoading: boolean;
+  rejReqLoading: boolean;
   rejReqSuccess: boolean;
   sendReqSuccess: boolean;
   accGroupReqSuccess: boolean;
@@ -62,8 +64,10 @@ const RequestProvider = ({ children }: childrenIFace) => {
   const [getReqLoading, setGetReqLoading] = useState(false);
 
   const [accReqSuccess, setAccReqSuccess] = useState(false);
+  const [accReqLoading, setAccReqLoading] = useState(false);
   const [accGroupReqSuccess, setAccGroupReqSuccess] = useState(false);
   const [rejReqSuccess, setRejReqSuccess] = useState(false);
+  const [rejReqLoading, setRejReqLoading] = useState(false);
   const [rejGroupReqSuccess, setRejGroupReqSuccess] = useState(false);
   const [sendReqSuccess, setSendReqSuccess] = useState(false);
 
@@ -113,9 +117,10 @@ const RequestProvider = ({ children }: childrenIFace) => {
   };
 
   const acceptRequest = async (reqId: string) => {
-    try {
-      setAccReqSuccess(false);
+    setAccReqSuccess(false);
+    setAccReqLoading(true);
 
+    try {
       const { data } = await axios.put(
         `/api/requests/accept/${reqId}`,
         {},
@@ -125,25 +130,30 @@ const RequestProvider = ({ children }: childrenIFace) => {
       );
 
       if (data) {
+        setAccReqLoading(false);
         setAccReqSuccess(true);
       }
     } catch (error) {
+      setAccReqLoading(false);
       console.log(error);
     }
   };
 
   const rejectRequest = async (reqId: string) => {
-    try {
-      setRejReqSuccess(false);
+    setRejReqSuccess(false);
+    setRejReqLoading(true);
 
+    try {
       const { data } = await axios.delete(`/api/requests/reject/${reqId}`, {
         withCredentials: true,
       });
 
       if (data) {
         setRejReqSuccess(true);
+        setRejReqLoading(false);
       }
     } catch (error) {
+      setRejReqLoading(false);
       console.log(error);
     }
   };
@@ -232,7 +242,9 @@ const RequestProvider = ({ children }: childrenIFace) => {
     getReqLoading,
     acceptRequest,
     accReqSuccess,
+    accReqLoading,
     rejReqSuccess,
+    rejReqLoading,
     rejectRequest,
     sendGroupRequest,
     sendReqSuccess,

@@ -1,13 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Friends from "./Friends";
 import Groups from "./groups/Groups";
 import Profile from "./Profile";
 
+const navItems = ["Profile", "Friends", "Groups"];
+
 const ChatActivities = () => {
-  const [isProfileActive, setIsProfileActive] = useState(true);
+  const [isProfileActive, setIsProfileActive] = useState(false);
   const [isFriendsActive, setIsFriendsActive] = useState(false);
   const [isGroupsActive, setIsGroupsActive] = useState(false);
+
+  const [activeNavItem, setActiveNavItem] = useState(
+    JSON.parse(localStorage.getItem("activeNavItem") || "Profile")
+  );
+
+  const navigationHandler = (item: string) => {
+    item === "Profile"
+      ? (setIsProfileActive(true),
+        localStorage.setItem("activeNavItem", JSON.stringify(item)))
+      : setIsProfileActive(false);
+    item === "Friends"
+      ? (setIsFriendsActive(true),
+        localStorage.setItem("activeNavItem", JSON.stringify(item)))
+      : setIsFriendsActive(false);
+    item === "Groups"
+      ? (setIsGroupsActive(true),
+        localStorage.setItem("activeNavItem", JSON.stringify(item)))
+      : setIsGroupsActive(false);
+  };
+
+  useEffect(() => {
+    setActiveNavItem(
+      JSON.parse(localStorage.getItem("activeNavItem") || "Profile")
+    );
+  }, [navigationHandler]);
+
+  useEffect(() => {
+    activeNavItem === "Profile"
+      ? setIsProfileActive(true)
+      : setIsProfileActive(false);
+    activeNavItem === "Friends"
+      ? setIsFriendsActive(true)
+      : setIsFriendsActive(false);
+    activeNavItem === "Groups"
+      ? setIsGroupsActive(true)
+      : setIsGroupsActive(false);
+  });
 
   return (
     <div className="chat-activities">
@@ -18,36 +57,17 @@ const ChatActivities = () => {
           </Link>
         </div>
         <nav>
-          <h3
-            onClick={() => {
-              setIsProfileActive(true);
-              setIsFriendsActive(false);
-              setIsGroupsActive(false);
-            }}
-            className={isProfileActive ? "nav-item-active" : "nav-item"}
-          >
-            Profile
-          </h3>
-          <h3
-            onClick={() => {
-              setIsFriendsActive(true);
-              setIsProfileActive(false);
-              setIsGroupsActive(false);
-            }}
-            className={isFriendsActive ? "nav-item-active" : "nav-item"}
-          >
-            Friends
-          </h3>
-          <h3
-            onClick={() => {
-              setIsGroupsActive(true);
-              setIsProfileActive(false);
-              setIsFriendsActive(false);
-            }}
-            className={isGroupsActive ? "nav-item-active" : "nav-item"}
-          >
-            Groups
-          </h3>
+          {navItems.map((item) => (
+            <h3
+              key={item}
+              className={
+                item === activeNavItem ? "nav-item-active" : "nav-item"
+              }
+              onClick={() => navigationHandler(item)}
+            >
+              {item}
+            </h3>
+          ))}
         </nav>
       </div>
       {isFriendsActive && <Friends isActive={isFriendsActive} />}

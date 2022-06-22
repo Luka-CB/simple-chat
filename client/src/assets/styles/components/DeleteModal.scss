@@ -1,0 +1,76 @@
+.del-warning-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 100%;
+
+  .del-warning-container {
+    background-color: $light-trans;
+    backdrop-filter: blur(18px);
+    width: 70%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 2px solid $danger;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgb(53, 52, 52);
+
+    #warn-text {
+      text-align: center;
+      font-size: 1.1rem;
+      color: $danger;
+
+      b {
+        font-style: italic;
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+        margin-left: 10px;
+      }
+    }
+
+    .btns {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      margin: auto;
+      margin-top: 30px;
+
+      button {
+        border: none;
+        outline: none;
+        width: 150px;
+        padding: 5px;
+        font-family: inherit;
+        border: 1px solid black;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+      }
+
+      #yes {
+        background-color: $danger;
+        color: rgb(211, 205, 205);
+        border-color: $danger;
+
+        &:hover {
+          color: black;
+          background-color: transparent;
+        }
+      }
+
+      #no {
+        background-color: black;
+        color: rgb(211, 205, 205);
+
+        &:hover {
+          color: black;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}

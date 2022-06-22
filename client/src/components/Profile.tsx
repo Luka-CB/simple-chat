@@ -5,6 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/users";
 import { AuthContext } from "../context/auth";
 import { ReqContext } from "../context/request";
+import UploadImage from "./UploadImage";
+import { StateContext } from "../context/states";
 
 export interface propsIFace {
   isActive: boolean;
@@ -14,15 +16,16 @@ const Profile = () => {
   const [accIndex, setAccIndex] = useState<number | null>(null);
   const [rejIndex, setRejIndex] = useState<number | null>(null);
 
+  const { showUploadImage, showUploadImageHandler } = useContext(StateContext);
   const { profileInfo, getProfile } = useContext(UserContext);
   const { user } = useContext(AuthContext);
   const {
     requests,
     reqCount,
     reqMsg,
-    getReqLoading,
     getMyRequests,
     accReqSuccess,
+    accReqLoading,
     acceptRequest,
     rejReqSuccess,
     rejectRequest,
@@ -64,7 +67,11 @@ const Profile = () => {
             ) : (
               <img src={DummyProfilePic} alt="Dummy Profile Picture" />
             )}
-            <div className="edit-avatar" title="Edit Profile Picture">
+            <div
+              className="edit-avatar"
+              title="Edit Profile Picture"
+              onClick={() => showUploadImageHandler(true)}
+            >
               <BsPencilFill id="pencil" />
             </div>
           </div>
@@ -97,38 +104,36 @@ const Profile = () => {
               overflowY: requests?.length > 6 ? "scroll" : "initial",
             }}
           >
-            {/* {getReqLoading && <p>Loading...</p>} */}
             {reqMsg && <p id="no-reqs">{reqMsg}</p>}
             {requests?.map((req, i) => (
               <div className="request" key={req._id}>
                 <div className="req-col-1">
-                  {req.from.avatar ? (
-                    <img src={req.from.avatar} alt={req.from.username} />
-                  ) : (
-                    <img
-                      id="img"
-                      src={DummyProfilePic}
-                      alt="Dummy profile pic"
-                    />
-                  )}
+                  <div className="image">
+                    {req.from.avatar ? (
+                      <img src={req.from.avatar} alt={req.from.username} />
+                    ) : (
+                      <img src={DummyProfilePic} alt="Dummy profile pic" />
+                    )}
+                  </div>
                   <h5 id="name">{req.from.username}</h5>
                 </div>
                 <div className="req-col-2">
                   <h5 id="date">{req.createdAt} ago</h5>
                 </div>
                 <div className="req-col-3">
-                  <div
+                  <button
                     onClick={() => acceptRequestHandler(req._id, i)}
                     id="accept-btn"
+                    disabled={accReqLoading}
                   >
                     {accIndex === i ? "..." : "Accept"}
-                  </div>
-                  <div
+                  </button>
+                  <button
                     onClick={() => rejectRequestHandler(req._id, i)}
                     id="remove-btn"
                   >
                     {rejIndex === i ? "..." : "Reject"}
-                  </div>
+                  </button>
                 </div>
               </div>
             ))}
@@ -141,6 +146,14 @@ const Profile = () => {
         hideUpdProfile={() => setShowUpdateProfile(false)}
         profileInfo={profileInfo}
       />
+
+      {showUploadImage && (
+        <UploadImage
+          avatar={profileInfo?.avatar}
+          type={"user"}
+          upload_preset={"simple-chat-profile-image"}
+        />
+      )}
     </div>
   );
 };

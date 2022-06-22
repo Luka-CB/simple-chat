@@ -1,0 +1,80 @@
+.upd-group-name-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  .upd-group-name-container {
+    background-color: $light;
+    width: 70%;
+    min-width: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px black;
+
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background-color: rgb(73, 73, 73);
+      padding: 10px;
+      box-shadow: 0 0 7px black;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.2s ease-in-out;
+      color: $light;
+
+      &:focus {
+        background-color: transparent;
+        color: black;
+      }
+    }
+
+    .btns {
+      margin-top: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        border: none;
+        outline: none;
+        font-family: inherit;
+        width: 40%;
+        padding: 7px;
+        border-radius: 10px;
+        border: 1px solid black;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+
+      #update {
+        background-color: $primary;
+        color: $light;
+        border-color: $primary;
+
+        &:hover {
+          background-color: transparent;
+          color: black;
+        }
+      }
+
+      #cancel {
+        background-color: black;
+        color: $light;
+
+        &:hover {
+          background-color: transparent;
+          color: black;
+        }
+      }
+    }
+  }
+}

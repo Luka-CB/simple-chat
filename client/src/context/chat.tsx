@@ -18,6 +18,7 @@ interface chatIFace {
 
 interface chatContextIFace {
   chatId: string;
+  setChatId: any;
   getChat: (chatId: string) => void;
   getChatLoading: boolean;
 }
@@ -46,6 +47,7 @@ const ChatProvider = ({ children }: childrenIFace) => {
   const contextData = {
     getChat,
     chatId,
+    setChatId,
     getChatLoading,
   };
 

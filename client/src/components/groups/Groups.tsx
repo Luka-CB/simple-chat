@@ -13,6 +13,7 @@ import Group from "./Group";
 import { ReqContext } from "../../context/request";
 import { AuthContext } from "../../context/auth";
 import { SocketContext } from "../../context/socket";
+import { StateContext } from "../../context/states";
 
 const Groups: React.FC<propsIFace> = ({ isActive }) => {
   const {
@@ -26,7 +27,6 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
     searchGroups,
     searchedGroups,
     searchedGroupsCount,
-    leaveGroupSuccess,
   } = useContext(GroupContext);
 
   const { sendGroupRequest, sendReqSuccess } = useContext(ReqContext);
@@ -35,10 +35,9 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
 
   const { groupsOnline } = useContext(SocketContext);
 
+  const { showGroup, showGroupHandler } = useContext(StateContext);
+
   const [groupName, setGroupName] = useState("");
-  const [placeholder, setPlaceholder] = useState("enter group name");
-  const [inputStyle, setInputStyle] = useState("");
-  const [showGroup, setShowGroup] = useState(false);
   const [query, setQuery] = useState("");
   const [showSearchResult, setShowSearchResult] = useState(false);
   const [reqIndex, setReqIndex] = useState<number | null>(null);
@@ -53,12 +52,7 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
   }, [crGroupSuccess, isActive]);
 
   const createGroupHandler = () => {
-    if (groupName === "") {
-      setPlaceholder("Please Provide name for Group!");
-      setInputStyle("inputError");
-    } else {
-      setPlaceholder("enter group name");
-      setInputStyle("");
+    if (groupName) {
       createGroup(groupName);
     }
   };
@@ -91,65 +85,67 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
 
   return (
     <div
-      className='groups-container'
+      className="groups-container"
       onClick={() => {
         setShowSearchResult(false);
         setQuery("");
       }}
     >
-      <div className='create-group'>
+      <div className="create-group">
         <input
-          type='text'
-          placeholder={placeholder}
-          id={inputStyle}
+          type="text"
+          placeholder="Enter Group Name"
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && createGroupHandler()}
         />
-        <button onClick={createGroupHandler} id='cr-btn'>
+        <button
+          onClick={createGroupHandler}
+          id={groupName ? "cr-btn" : "cr-btn-disabled"}
+        >
           {crGroupLoading ? "Creating..." : "Create"}
         </button>
       </div>
-      <div className='groups-section'>
-        <div id='gr-count'>Groups: {groupCount}</div>
-        <div className='groups-wrapper'>
-          <div className='search-group' onClick={(e) => e.stopPropagation()}>
-            <HiSearchCircle id='search-icon' />
+      <div className="groups-section">
+        <div id="gr-count">Groups: {groupCount}</div>
+        <div className="groups-wrapper">
+          <div className="search-group" onClick={(e) => e.stopPropagation()}>
+            <HiSearchCircle id="search-icon" />
             <input
-              type='text'
-              placeholder='search for groups'
+              type="text"
+              placeholder="search for groups"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
             {showSearchResult && (
-              <div className='search-res'>
-                <div className='result-wrapper'>
-                  <p id='result-count'>
+              <div className="search-res">
+                <div className="result-wrapper">
+                  <p id="result-count">
                     Result: <span>{searchedGroupsCount}</span>
                   </p>
                   {/* {searchLoading && <p>Loading...</p>} */}
-                  {searchedGroupsCount === 0 && <p id='no-match'>No Match!</p>}
+                  {searchedGroupsCount === 0 && <p id="no-match">No Match!</p>}
                   {searchedGroups?.map((group, i) => {
                     const isReqSent = group.requests?.some(
                       (req) => req.from === user.id
                     );
 
                     return (
-                      <div className='result' key={group._id}>
-                        <div className='image'>
+                      <div className="result" key={group._id}>
+                        <div className="image">
                           {group.image ? (
-                            <img src={group.image} alt='group pic' />
+                            <img src={group.image} alt="group pic" />
                           ) : (
-                            <img src={DummyGroupPic} alt='dummy pic' />
+                            <img src={DummyGroupPic} alt="dummy pic" />
                           )}
                         </div>
-                        <div className='info'>
-                          <h6 id='name' title={group.name}>
+                        <div className="info">
+                          <h6 id="name" title={group.name}>
                             {group.name.length > 17
                               ? group.name.substring(0, 17) + "..."
                               : group.name}
                           </h6>
-                          <h6 id='count'>members: {group.members?.length}</h6>
+                          <h6 id="count">members: {group.members?.length}</h6>
                           <button
                             id={isReqSent ? "sent-btn" : "join-btn"}
                             onClick={() => sendRequestHandler(group._id, i)}
@@ -158,12 +154,12 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
                               <span>....</span>
                             ) : isReqSent ? (
                               <>
-                                <AiOutlineCheck id='check-icon' />
+                                <AiOutlineCheck id="check-icon" />
                                 <span>Unsend</span>
                               </>
                             ) : (
                               <>
-                                <AiOutlineUsergroupAdd id='join-icon' />
+                                <AiOutlineUsergroupAdd id="join-icon" />
                                 <span>Join</span>
                               </>
                             )}
@@ -177,12 +173,12 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
             )}
           </div>
           <div
-            className='groups'
+            className="groups"
             style={{
               overflowY: groupCount > 7 ? "scroll" : "initial",
             }}
           >
-            {groups?.length === 0 && <p id='no-groups'>No Groups!</p>}
+            {groups?.length === 0 && <p id="no-groups">No Groups!</p>}
             {getGroupsLoading && <p>Loading...</p>}
             {groups?.map((group) => {
               const isGroupOnline = groupsOnline?.some(
@@ -190,32 +186,31 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
               );
 
               return (
-                <div key={group._id} className='group'>
-                  <div className='info'>
-                    <h5
-                      onClick={() => {
-                        navigate({
-                          pathname: "/chat",
-                          search: `?groupId=${group._id}`,
-                        });
-                        setShowGroup(true);
-                      }}
-                      id='group-name'
-                    >
-                      {group.name}
-                    </h5>
-                    <h6 id='members'>Members: {group.members?.length}</h6>
+                <div
+                  key={group._id}
+                  className="group"
+                  onClick={() => {
+                    navigate({
+                      pathname: "/chat",
+                      search: `?groupId=${group._id}`,
+                    });
+                    showGroupHandler(true);
+                  }}
+                >
+                  <div className="info">
+                    <h5 id="group-name">{group.name}</h5>
+                    <h6 id="members">Members: {group.members?.length}</h6>
                   </div>
-                  <div className='image'>
+                  <div className="image">
                     {group.image ? (
                       <img src={group.image} alt={group.name} />
                     ) : (
-                      <img src={DummyGroupPic} alt='Dummy Group Picture' />
+                      <img src={DummyGroupPic} alt="Dummy Group Picture" />
                     )}
                     {isGroupOnline ? (
-                      <div id='online'></div>
+                      <div id="online"></div>
                     ) : (
-                      <div id='offline'></div>
+                      <div id="offline"></div>
                     )}
                   </div>
                 </div>
@@ -226,7 +221,7 @@ const Groups: React.FC<propsIFace> = ({ isActive }) => {
       </div>
 
       {showGroup && (
-        <Group groups={groups} hideGroup={() => setShowGroup(false)} />
+        <Group groups={groups} hideGroup={() => showGroupHandler(false)} />
       )}
     </div>
   );

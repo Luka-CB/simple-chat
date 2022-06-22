@@ -13,6 +13,9 @@ const groupSchema = mongoose.Schema(
     image: {
       type: String,
     },
+    imageId: {
+      type: String,
+    },
     members: [
       {
         type: mongoose.Schema.Types.ObjectId,

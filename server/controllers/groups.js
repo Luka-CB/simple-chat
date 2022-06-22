@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const cloudinary = require("../config/cloudinary");
 const Group = require("../models/Group");
 const User = require("../models/User");
 
@@ -127,6 +128,66 @@ const leaveGroup = asyncHandler(async (req, res) => {
   res.status(200).send("success");
 });
 
+// UPDATE GROUP IMAGE
+// ROUTE - PUT - /api/groups/update_img
+// PRIVATE - USER
+const updateGroupImage = asyncHandler(async (req, res) => {
+  const { imageUrl, publicId } = req.body;
+  const { groupId } = req.query;
+
+  const group = await Group.findOne({ _id: groupId }, "image imageId");
+
+  if (group.image && group.imageId) {
+    await cloudinary.uploader.destroy(group.imageId);
+  }
+
+  const updatedGroup = await Group.updateOne(
+    { _id: groupId },
+    { image: imageUrl, imageId: publicId }
+  );
+
+  if (!updatedGroup) throw new Error("Update Group Image Request has Failed!");
+
+  res.status(200).send("success");
+});
+
+// REMOVE GROUP IMAGE
+// ROUTE - PUT - /api/groups/remove_img
+// PRIVATE - USER
+const removeGroupImage = asyncHandler(async (req, res) => {
+  const { groupId } = req.query;
+
+  const group = await Group.findOne({ _id: groupId }, "imageId");
+
+  await cloudinary.uploader.destroy(group.imageId);
+
+  const updatedGroup = await Group.updateOne(
+    { _id: groupId },
+    { image: "", imageId: "" }
+  );
+
+  if (!updatedGroup) throw new Error("Remove Group Image Request has Failed!");
+
+  res.status(200).send("success");
+});
+
+// UPDATE GROUP NAME
+// ROUTE - PUT - /api/groups/update_name
+// PRIVATE - USER
+const updateGroupName = asyncHandler(async (req, res) => {
+  const { groupName } = req.body;
+  const { groupId } = req.query;
+
+  const updatedGroup = await Group.updateOne(
+    { _id: groupId },
+    { name: groupName }
+  );
+
+  if (!updatedGroup) throw new Error("Update Group Name Request has Failed!");
+
+  res.status(200).send("success");
+});
+
 module.exports = {
   createGroup,
   fetchGroups,
@@ -135,4 +196,7 @@ module.exports = {
   addMember,
   removeMember,
   leaveGroup,
+  updateGroupImage,
+  removeGroupImage,
+  updateGroupName,
 };

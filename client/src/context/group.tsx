@@ -50,6 +50,13 @@ interface groupContextIFace {
   addMember: (groupId: string, userId: string) => void;
   removeMember: (groupId: string, userId: string) => void;
   leaveGroup: (groupId: string) => void;
+  updateGroupImage: (
+    groupId: string,
+    imageUrl: string,
+    publicId: string
+  ) => void;
+  removeGroupImage: (groupId: string) => void;
+  updateGroupName: (groupId: string, groupName: string) => void;
   groups: groupsIFace[];
   group: groupsIFace;
   groupMembers: groupMembersIFace[];
@@ -66,6 +73,13 @@ interface groupContextIFace {
   removeMemberSuccess: boolean;
   leaveGroupLoading: boolean;
   leaveGroupSuccess: boolean;
+  updGroupImageSuccess: boolean;
+  updGroupImageLoading: boolean;
+  removeGroupImageLoading: boolean;
+  removeGroupImageSuccess: boolean;
+  updGroupNameLoading: boolean;
+  updGroupNameSuccess: boolean;
+  setUpdGroupNameSuccess: any;
 }
 
 export const GroupContext = createContext({} as groupContextIFace);
@@ -89,6 +103,15 @@ const GroupProvider = ({ children }: childrenIFace) => {
   const [removeMemberSuccess, setRemoveMemberSuccess] = useState(false);
   const [leaveGroupSuccess, setLeaveGroupSuccess] = useState(false);
   const [leaveGroupLoading, setLeaveGroupLoading] = useState(false);
+
+  const [updGroupImageLoading, setUpdGroupImageLoading] = useState(false);
+  const [updGroupImageSuccess, setUpdGroupImageSuccess] = useState(false);
+
+  const [removeGroupImageLoading, setRemoveGroupImageLoading] = useState(false);
+  const [removeGroupImageSuccess, setRemoveGroupImageSuccess] = useState(false);
+
+  const [updGroupNameLoading, setUpdGroupNameLoading] = useState(false);
+  const [updGroupNameSuccess, setUpdGroupNameSuccess] = useState(false);
 
   const createGroup = async (name: string) => {
     setCrGroupLoading(true);
@@ -245,6 +268,82 @@ const GroupProvider = ({ children }: childrenIFace) => {
     }
   };
 
+  const updateGroupImage = async (
+    groupId: string,
+    imageUrl: string,
+    publicId: string
+  ) => {
+    setUpdGroupImageLoading(true);
+    setUpdGroupImageSuccess(false);
+
+    try {
+      const { data } = await axios.put(
+        `/api/groups/update_img?groupId=${groupId}`,
+        { imageUrl, publicId },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      if (data) {
+        setUpdGroupImageLoading(false);
+        setUpdGroupImageSuccess(true);
+      }
+    } catch (error) {
+      setUpdGroupImageLoading(false);
+      console.log(error);
+    }
+  };
+
+  const removeGroupImage = async (groupId: string) => {
+    setRemoveGroupImageLoading(true);
+    setRemoveGroupImageSuccess(false);
+
+    try {
+      const { data } = await axios.put(
+        `/api/groups/remove_img?groupId=${groupId}`,
+        {},
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      if (data) {
+        setRemoveGroupImageLoading(false);
+        setRemoveGroupImageSuccess(true);
+      }
+    } catch (error) {
+      setRemoveGroupImageLoading(false);
+      console.log(error);
+    }
+  };
+
+  const updateGroupName = async (groupId: string, groupName: string) => {
+    setUpdGroupNameLoading(true);
+    setUpdGroupNameSuccess(false);
+
+    try {
+      const { data } = await axios.put(
+        `/api/groups/update_name?groupId=${groupId}`,
+        { groupName },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      if (data) {
+        setUpdGroupNameLoading(false);
+        setUpdGroupNameSuccess(true);
+      }
+    } catch (error) {
+      setUpdGroupNameLoading(false);
+      console.log(error);
+    }
+  };
+
   const contextData = {
     createGroup,
     getGroups,
@@ -269,6 +368,16 @@ const GroupProvider = ({ children }: childrenIFace) => {
     leaveGroup,
     leaveGroupLoading,
     leaveGroupSuccess,
+    updateGroupImage,
+    updGroupImageLoading,
+    updGroupImageSuccess,
+    removeGroupImage,
+    removeGroupImageLoading,
+    removeGroupImageSuccess,
+    updateGroupName,
+    updGroupNameLoading,
+    updGroupNameSuccess,
+    setUpdGroupNameSuccess,
   };
 
   return (

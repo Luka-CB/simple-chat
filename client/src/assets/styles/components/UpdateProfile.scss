@@ -130,100 +130,17 @@
           padding: 5px;
           border: none;
           outline: none;
-          background-color: $success;
+          background-color: $primary;
           color: rgb(160, 214, 202);
           border-radius: 15px;
           font-family: inherit;
-          font-size: 1rem;
-          box-shadow: 0 0 5px $success;
+          border: 1px solid $primary;
           cursor: pointer;
           transition: 0.2s ease-in-out;
 
           &:hover {
-            color: $light;
-            background-color: $success-hover;
-            box-shadow: 0 0 5px $success-hover;
-          }
-        }
-      }
-    }
-  }
-
-  .del-warning-bg {
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    position: absolute;
-    top: 0;
-    height: 100%;
-
-    .del-warning-container {
-      background-color: $light-trans;
-      backdrop-filter: blur(18px);
-      width: 70%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 20px;
-      border: 2px solid $danger;
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgb(53, 52, 52);
-
-      #warn-text {
-        text-align: center;
-        font-size: 1.1rem;
-        color: $danger;
-
-        b {
-          font-style: italic;
-          font-size: 1.5rem;
-          letter-spacing: 3px;
-        }
-      }
-
-      .btns {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 90%;
-        margin: auto;
-        margin-top: 30px;
-
-        #yes {
-          border: none;
-          outline: none;
-          background-color: $danger;
-          color: rgb(211, 205, 205);
-          width: 150px;
-          padding: 5px;
-          font-family: inherit;
-          border-radius: 15px;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: 0.2s ease-in-out;
-
-          &:hover {
-            color: $light;
-            background-color: $danger-hover;
-          }
-        }
-
-        #no {
-          border: none;
-          outline: none;
-          background-color: $secondary;
-          color: rgb(211, 205, 205);
-          width: 150px;
-          padding: 5px;
-          font-family: inherit;
-          border-radius: 15px;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: 0.2s ease-in-out;
-
-          &:hover {
-            color: $light;
-            background-color: $secondary-hover;
+            color: black;
+            background-color: transparent;
           }
         }
       }

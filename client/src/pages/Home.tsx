@@ -10,11 +10,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='home-container'>
+    <div className="home-container">
       <Header />
-      <div className='wrapper'>
-        <div className='col_1'>
-          <div className='hero'>
+      <div className="wrapper">
+        <div className="col_1">
+          <div className="hero">
             <h1>Connect with the World!</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aperiam
@@ -27,16 +27,22 @@ const Home = () => {
             </p>
             <button
               onClick={() =>
-                user?.id ? navigate("/chat") : navigate("/signin")
+                user?.id
+                  ? (navigate("/chat"),
+                    localStorage.setItem(
+                      "activeNavItem",
+                      JSON.stringify("Profile")
+                    ))
+                  : navigate("/signin")
               }
             >
               Start Chat Now
             </button>
           </div>
         </div>
-        <div className='col_2'>
-          <div className='image'>
-            <img src={MainPageImg} alt='Main Page Image' />
+        <div className="col_2">
+          <div className="image">
+            <img src={MainPageImg} alt="Main Page Image" />
           </div>
         </div>
       </div>

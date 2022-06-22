@@ -56,28 +56,6 @@
         display: flex;
         flex-direction: column;
 
-        // /* width */
-        // &::-webkit-scrollbar {
-        //   width: 7px;
-        // }
-
-        // /* Track */
-        // &::-webkit-scrollbar-track {
-        //   box-shadow: inset 0 0 5px rgb(255, 255, 255);
-        //   border-radius: 10px;
-        // }
-
-        // /* Handle */
-        // &::-webkit-scrollbar-thumb {
-        //   background: $secondary-hover;
-        //   border-radius: 10px;
-        // }
-
-        // /* Handle on hover */
-        // &::-webkit-scrollbar-thumb:hover {
-        //   background: $secondary;
-        // }
-
         #no-msgs {
           position: absolute;
           top: 50%;
@@ -108,7 +86,8 @@
             padding: 5px;
 
             h5 {
-              color: rgb(75, 74, 74);
+              color: rgb(113, 113, 113);
+              font-weight: 400;
             }
           }
         }
@@ -133,7 +112,8 @@
             padding: 5px;
 
             h5 {
-              color: rgb(75, 74, 74);
+              color: rgb(113, 113, 113);
+              font-weight: 400;
             }
           }
         }

@@ -13,6 +13,10 @@ import GroupRequests from "./GroupRequests";
 import AddGroupFriends from "./AddGroupFriends";
 import { AuthContext } from "../../context/auth";
 import { SocketContext } from "../../context/socket";
+import { StateContext } from "../../context/states";
+import UploadImage from "../UploadImage";
+import UpdateGroupName from "./UpdateGroupName";
+import DeleteModal from "../DeleteModal";
 
 interface groupPropsIFace {
   groups: groupsIFace[];
@@ -34,9 +38,18 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
     leaveGroup,
     leaveGroupLoading,
     leaveGroupSuccess,
+    setUpdGroupNameSuccess,
   } = useContext(GroupContext);
   const { user } = useContext(AuthContext);
   const { usersOnline, groupsOnline } = useContext(SocketContext);
+  const {
+    showUploadImage,
+    showUploadImageHandler,
+    showUpdateGroupName,
+    showUpdateGroupNameHandler,
+    showDeleteModal,
+    showDeleteModalHandler,
+  } = useContext(StateContext);
 
   const [searchParams] = useSearchParams();
   const groupId = searchParams.get("groupId");
@@ -76,52 +89,69 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
   const isGroupAdmin = group?.admin?._id === user?.id;
 
   return (
-    <div className='group-container'>
-      <div className='group-profile'>
-        <AiOutlineCloseCircle id='close-icon' onClick={hideGroup} />
-        <div className='image'>
-          {group?.image ? (
-            <img src={group.image} alt={group.name} />
-          ) : (
-            <img src={DummyGroupPic} alt='Dummy Group Picture' />
+    <div className="group-container">
+      <div className="group-profile">
+        <AiOutlineCloseCircle id="close-icon" onClick={hideGroup} />
+        <div className="image-wrapper">
+          <div className="image">
+            {group?.image ? (
+              <img src={group.image} alt={group.name} />
+            ) : (
+              <img src={DummyGroupPic} alt="Dummy Group Picture" />
+            )}
+          </div>
+          {isGroupAdmin && (
+            <span id="upload-link" onClick={() => showUploadImageHandler(true)}>
+              {group.image ? "Update Image" : "Upload image"}
+            </span>
           )}
-          {isGroupAdmin && <span>Upload image</span>}
         </div>
         <section>
-          <div className='info'>
-            <div id='name'>
+          <div className="info">
+            <div id="name">
               <h3>
                 {group.name?.length > 26
                   ? group.name?.substring(0, 26) + "..."
                   : group.name}
               </h3>
-              {isGroupAdmin && <AiOutlineEdit id='edit-icon' />}
+              {isGroupAdmin && (
+                <AiOutlineEdit
+                  id="edit-icon"
+                  onClick={() => {
+                    setUpdGroupNameSuccess(false);
+                    showUpdateGroupNameHandler(true);
+                  }}
+                />
+              )}
             </div>
-            <p id='date'>Created {group.createdAt} ago</p>
-            <h6 id='admin'>
+            <p id="date">Created {group.createdAt} ago</p>
+            <h6 id="admin">
               Admin: <span>{group.admin?.username}</span>
             </h6>
           </div>
           {isGroupAdmin && (
-            <div className='activity'>
+            <div className="activity">
               <div
-                className='requests'
+                className="requests"
                 onClick={() => setShowGroupRequests(true)}
               >
                 <span>Requests</span>
-                <div id='pill'>{group.requests?.length}</div>
+                <div id="pill">{group.requests?.length}</div>
               </div>
 
               <div
-                className='add-friend'
+                className="add-friend"
                 onClick={() => setShowAddFriend(true)}
               >
-                <AiOutlineUserAdd id='add-icon' />
+                <AiOutlineUserAdd id="add-icon" />
                 <span>Add Friend</span>
               </div>
 
-              <div className='del-group'>
-                <AiOutlineDelete id='del-icon' />
+              <div
+                className="del-group"
+                onClick={() => showDeleteModalHandler(true)}
+              >
+                <AiOutlineDelete id="del-icon" />
                 <span>Delete Group</span>
               </div>
             </div>
@@ -129,15 +159,15 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
         </section>
       </div>
       <hr />
-      <div className='section-two'>
+      <div className="section-two">
         <div
-          className='col-one'
+          className={groupsFormated.length === 0 ? "col-one-empty" : "col-one"}
           style={{
             borderTopRightRadius: groupsFormated?.length < 6 ? "20px" : "unset",
           }}
         >
           <div
-            className='groups-wrapper'
+            className="groups-wrapper"
             style={{
               overflowY: groupsFormated?.length > 6 ? "scroll" : "initial",
             }}
@@ -148,7 +178,7 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
               );
 
               return (
-                <div className='group' key={group._id}>
+                <div className="group" key={group._id}>
                   <h5
                     onClick={() =>
                       navigate({
@@ -156,20 +186,21 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
                         search: `?groupId=${group._id}`,
                       })
                     }
-                    id='group-name'
+                    id="group-name"
+                    title={group.name}
                   >
                     {group.name.substring(0, 12)}...
                   </h5>
-                  <div id='image'>
+                  <div id="image">
                     {group.image ? (
                       <img src={group.image} alt={group.name} />
                     ) : (
-                      <img src={DummyGroupPic} alt='dimmy pic' />
+                      <img src={DummyGroupPic} alt="dimmy pic" />
                     )}
                     {isGroupOnline ? (
-                      <div id='online'></div>
+                      <div id="online"></div>
                     ) : (
-                      <div id='offline'></div>
+                      <div id="offline"></div>
                     )}
                   </div>
                 </div>
@@ -177,39 +208,39 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
             })}
           </div>
         </div>
-        <div className='col-two'>
+        <div className="col-two">
           <div
-            className='members-wrapper'
+            className="members-wrapper"
             style={{
               overflowY: groupMembers?.length > 7 ? "scroll" : "initial",
             }}
           >
-            <div id='member-count'>Members: {groupMembers?.length}</div>
-            <div className='members'>
+            <div id="member-count">Members: {groupMembers?.length}</div>
+            <div className="members">
               {membersFormated?.map((member, i) => {
                 const isUserOnline = usersOnline?.some(
                   (user) => user.userId === member._id
                 );
 
                 return (
-                  <div className='member' key={member._id}>
-                    <div id='avatar'>
+                  <div className="member" key={member._id}>
+                    <div id="avatar">
                       {member.avatar ? (
                         <img src={member.avatar} alt={member.username} />
                       ) : (
-                        <img src={DummyProfilePic} alt='dummy pic' />
+                        <img src={DummyProfilePic} alt="dummy pic" />
                       )}
-                      <h5 id='user-name'>{member.username}</h5>
+                      <h5 id="user-name">{member.username}</h5>
                       {isUserOnline ? (
-                        <div id='online'></div>
+                        <div id="online"></div>
                       ) : (
-                        <div id='offline'></div>
+                        <div id="offline"></div>
                       )}
                     </div>
                     {member._id === user?.id && (
                       <button
                         onClick={() => groupId && leaveGroup(groupId)}
-                        id='leave-btn'
+                        id="leave-btn"
                       >
                         {leaveGroupLoading ? "...." : "Leave Group"}
                       </button>
@@ -217,7 +248,7 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
                     {group?.admin?._id === user?.id && (
                       <button
                         onClick={() => removeMemberHandler(member._id, i)}
-                        id='remove-btn'
+                        id="remove-btn"
                         disabled={disableBtn}
                       >
                         {removeIndex === i ? "...." : "Remove"}
@@ -247,6 +278,23 @@ const Group: React.FC<groupPropsIFace> = ({ groups, hideGroup }) => {
             setShowAddFriend(false);
           }}
           groupId={groupId}
+        />
+      )}
+      {showUploadImage && (
+        <UploadImage
+          avatar={group?.image}
+          type={"group"}
+          groupId={group._id}
+          upload_preset={"simple-chat-group-image"}
+        />
+      )}
+      {showUpdateGroupName && (
+        <UpdateGroupName groupName={group.name} groupId={group._id} />
+      )}
+      {showDeleteModal && (
+        <DeleteModal
+          text="Are you sure? You are deleting"
+          textBold={group.name}
         />
       )}
     </div>

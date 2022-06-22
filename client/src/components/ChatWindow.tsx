@@ -3,13 +3,15 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { FiSend } from "react-icons/fi";
 import { BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
-import { MessageContext, messagesIFace } from "../context/message";
+import { MessageContext } from "../context/message";
 import { AuthContext } from "../context/auth";
 import { formatDistanceToNow } from "date-fns";
 import { SocketContext } from "../context/socket";
 import { v4 as uuidv4 } from "uuid";
 import ScrollToBottom from "react-scroll-to-bottom";
 import Picker from "emoji-picker-react";
+import { ChatContext } from "../context/chat";
+import { StateContext } from "../context/states";
 
 const ChatWindow = () => {
   const [msgText, setMsgText] = useState("");
@@ -17,7 +19,12 @@ const ChatWindow = () => {
   const [chosenEmoji, setChosenEmoji] = useState<any>(null);
   const [showEmojiWindow, setShowEmojiWindow] = useState(false);
 
+  const onEmojiClick = (event: any, emojiObject: any) => {
+    setChosenEmoji(emojiObject);
+  };
+
   const { user } = useContext(AuthContext);
+  const { showUpdateGroupNameHandler } = useContext(StateContext);
   const {
     liveMessages,
     setLiveMessages,
@@ -40,6 +47,8 @@ const ChatWindow = () => {
     setSentMsg,
     userIds,
   } = useContext(MessageContext);
+
+  const { setChatId } = useContext(ChatContext);
 
   const [searchParams] = useSearchParams();
 
@@ -119,33 +128,34 @@ const ChatWindow = () => {
     setMsgText("");
   };
 
-  const onEmojiClick = (emojiObject: any) => {
-    setChosenEmoji(emojiObject);
-  };
-
   const chatToggleHandler = () => {
     socket?.emit("closeChat", groupId);
 
     setShowChat(false);
-    navigate("/chat");
+    setChatId("");
+    showUpdateGroupNameHandler(false);
+    navigate({
+      pathname: "/chat",
+      search: ``,
+    });
   };
 
   return (
-    <div className='chat-window' onClick={() => setShowEmojiWindow(false)}>
+    <div className="chat-window" onClick={() => setShowEmojiWindow(false)}>
       {showChat ? (
         <>
-          <div className='chat-area'>
-            <div onClick={chatToggleHandler} className='close-chat'>
-              <AiOutlineClose id='close-icon' />
+          <div className="chat-area">
+            <div onClick={chatToggleHandler} className="close-chat">
+              <AiOutlineClose id="close-icon" />
               <span>close chat</span>
             </div>
-            <ScrollToBottom className='scroll-wrapper'>
-              <div className='msg-wrapper'>
+            <ScrollToBottom className="scroll-wrapper">
+              <div className="msg-wrapper">
                 {chatId && messages?.length === 0 && (
-                  <p id='no-msgs'>No messages!</p>
+                  <p id="no-msgs">No messages!</p>
                 )}
                 {groupId && groupMessages?.length === 0 && (
-                  <p id='no-msgs'>No messages!</p>
+                  <p id="no-msgs">No messages!</p>
                 )}
                 {chatId
                   ? messages?.map((msg, i) => {
@@ -156,12 +166,12 @@ const ChatWindow = () => {
                           key={msg._id ? msg._id : uuidv4()}
                           className={isMyMsg ? "myMsg" : "msg"}
                         >
-                          <div className='msg-text'>
+                          <div className="msg-text">
                             <p>
                               {msg.message} {isMyMsg}
                             </p>
                           </div>
-                          <div className='info'>
+                          <div className="info">
                             <h5>{date} ago</h5>
                             <h5>by: {msg.author.username}</h5>
                           </div>
@@ -176,12 +186,12 @@ const ChatWindow = () => {
                           key={msg._id ? msg._id : uuidv4()}
                           className={isMyMsg ? "myMsg" : "msg"}
                         >
-                          <div className='msg-text'>
+                          <div className="msg-text">
                             <p>
                               {msg.message} {isMyMsg}
                             </p>
                           </div>
-                          <div className='info'>
+                          <div className="info">
                             <h5>{date} ago</h5>
                             <h5>by: {msg.author.username}</h5>
                           </div>
@@ -191,30 +201,30 @@ const ChatWindow = () => {
               </div>
             </ScrollToBottom>
           </div>
-          <div className='input-area'>
-            <div className='chat-input' onClick={(e) => e.stopPropagation()}>
+          <div className="input-area">
+            <div className="chat-input" onClick={(e) => e.stopPropagation()}>
               <textarea
-                placeholder='write text here'
+                placeholder="write text here"
                 value={msgText}
                 onChange={(e) => setMsgText(e.target.value)}
                 // onKeyDown={(e) => e.key === "Enter" && createMsgHandler()}
               ></textarea>
               <div
                 onClick={() => setShowEmojiWindow(true)}
-                className='emoji-btn'
+                className="emoji-btn"
               >
                 <BsEmojiSmile />
               </div>
               <div
                 onClick={chatId ? createMsgHandler : createGroupMsgHandler}
-                className='send-btn'
+                className="send-btn"
               >
                 <FiSend />
               </div>
             </div>
             {showEmojiWindow && (
               <div
-                className='emoji-window'
+                className="emoji-window"
                 onClick={(e) => e.stopPropagation()}
               >
                 {chosenEmoji ? (
@@ -228,7 +238,7 @@ const ChatWindow = () => {
           </div>
         </>
       ) : (
-        <div className='chat-info'>
+        <div className="chat-info">
           <h1>Choose Friend or group to start chat.</h1>
         </div>
       )}

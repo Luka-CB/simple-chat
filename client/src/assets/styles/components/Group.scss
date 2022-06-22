@@ -27,14 +27,32 @@
       }
     }
 
-    .image {
+    .image-wrapper {
       width: 30%;
       display: flex;
       flex-direction: column;
       align-items: center;
 
-      img {
-        width: 120px;
+      .image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      #upload-link {
+        margin-top: 10px;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
@@ -217,6 +235,15 @@
   .section-two {
     display: flex;
 
+    .col-one-empty {
+      width: 5%;
+      background-color: rgb(215, 211, 218);
+      box-shadow: 3px 2px 11px black;
+      margin-top: 15px;
+      margin-right: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
     .col-one {
       width: 30%;
       background-color: rgb(215, 211, 218);
@@ -267,9 +294,14 @@
 
           #image {
             position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
 
             img {
-              width: 50px;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
               border-radius: 50%;
             }
 
