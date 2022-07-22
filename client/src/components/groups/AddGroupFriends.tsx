@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import DummyProfilePic from "../../assets/images/dummy-profile-pic.png";
-import { FriendContext } from "../../context/friend";
-import { GroupContext, groupMembersIFace } from "../../context/group";
+import { FriendContext } from "../../context/features/friend";
+import { GroupContext, groupMembersIFace } from "../../context/features/group";
 
 interface groupPropsIFace {
   showModal: boolean;
@@ -46,37 +46,37 @@ const AddGroupFriends: React.FC<groupPropsIFace> = ({
   };
 
   return (
-    <div className='add-group-friends-bg' onClick={hideModal}>
+    <div className="add-group-friends-bg" onClick={hideModal}>
       <div
-        className='add-group-friends-container'
+        className="add-group-friends-container"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='header'>
-          <h3 id='title'>Add Friend</h3>
-          <AiOutlineCloseCircle id='close-icon' onClick={hideModal} />
+        <div className="header">
+          <h3 id="title">Add Friend</h3>
+          <AiOutlineCloseCircle id="close-icon" onClick={hideModal} />
         </div>
-        <div className='friends-wrapper'>
+        <div className="friends-wrapper">
           {friendsToAdd?.length === 0 && (
-            <p id='no-friends'>No Friends to Add!</p>
+            <p id="no-friends">No Friends to Add!</p>
           )}
           {friendsToAdd?.map((friend, i) => (
-            <div className='friend' key={friend._id}>
-              <div className='col-one'>
+            <div className="friend" key={friend._id}>
+              <div className="col-one">
                 {friend.avatar ? (
                   <img src={friend.avatar} alt={friend.username} />
                 ) : (
-                  <img src={DummyProfilePic} alt='dummy pic' />
+                  <img src={DummyProfilePic} alt="dummy pic" />
                 )}
-                <h5 id='name'>
+                <h5 id="name">
                   {friend.username?.length > 17
                     ? friend.username.substring(0, 17) + "..."
                     : friend.username}
                 </h5>
               </div>
-              <div className='col-two'>
+              <div className="col-two">
                 <button
                   onClick={() => addMemberHandler(friend._id, i)}
-                  id='add'
+                  id="add"
                   disabled={disableBtn}
                 >
                   {addIndex === i ? "...." : "Add to Group"}

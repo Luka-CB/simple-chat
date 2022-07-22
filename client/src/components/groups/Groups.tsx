@@ -7,13 +7,13 @@ import {
 } from "react-icons/ai";
 import DummyGroupPic from "../../assets/images/dummy-group-pic.png";
 import { propsIFace } from "../Profile";
-import { GroupContext } from "../../context/group";
+import { GroupContext } from "../../context/features/group";
 import { useNavigate } from "react-router-dom";
 import Group from "./Group";
-import { ReqContext } from "../../context/request";
-import { AuthContext } from "../../context/auth";
-import { SocketContext } from "../../context/socket";
-import { StateContext } from "../../context/states";
+import { ReqContext } from "../../context/features/request";
+import { AuthContext } from "../../context/features/auth";
+import { SocketContext } from "../../context/features/socket";
+import { StateContext } from "../../context/features/states";
 
 const Groups: React.FC<propsIFace> = ({ isActive }) => {
   const {

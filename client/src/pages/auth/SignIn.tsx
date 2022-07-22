@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import { AuthContext } from "../../context/features/auth";
 
 const SignIn = () => {
   const { login, loginSuccess, loginError, loginLoading } =

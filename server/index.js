@@ -46,6 +46,7 @@ app.use("/api/friends", require("./routes/friends"));
 app.use("/api/chats", require("./routes/chats"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/groups", require("./routes/groups"));
+app.use("/api/unreadmsgs", require("./routes/unreadMsgs"));
 
 app.use(notFound);
 app.use(errorHandler);

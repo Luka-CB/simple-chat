@@ -6,6 +6,7 @@ const {
   addGroup,
   getGroups,
   removeGroup,
+  updateUsers,
 } = require("./utils");
 
 module.exports = (io) => {
@@ -18,10 +19,21 @@ module.exports = (io) => {
       io.emit("getUsers", users);
     });
 
+    socket.on("updateWindowState", (userId, chatId = "", groupId = "") => {
+      updateUsers(userId, chatId, groupId);
+      io.emit("getUsers", getUsers());
+    });
+
     socket.on("sendMessage", (data) => {
       const user = getUser(data.receiverId);
       if (!user) console.log("user is not online");
       io.to(user.socketId).emit("getMessage", data);
+    });
+
+    socket.on("sendUnreadMessage", (data) => {
+      const user = getUser(data.receiverId);
+      if (!user) console.log("user is not online");
+      io.to(user.socketId).emit("getUnreadMessage", data);
     });
 
     socket.on("addGroup", (groupId) => {

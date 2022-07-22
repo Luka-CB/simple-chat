@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { GroupContext, groupsIFace } from "../../context/group";
+import { GroupContext, groupsIFace } from "../../context/features/group";
 import DummyGroupPic from "../../assets/images/dummy-group-pic.png";
 import DummyProfilePic from "../../assets/images/dummy-profile-pic.png";
 import {
@@ -11,9 +11,9 @@ import {
 } from "react-icons/ai";
 import GroupRequests from "./GroupRequests";
 import AddGroupFriends from "./AddGroupFriends";
-import { AuthContext } from "../../context/auth";
-import { SocketContext } from "../../context/socket";
-import { StateContext } from "../../context/states";
+import { AuthContext } from "../../context/features/auth";
+import { SocketContext } from "../../context/features/socket";
+import { StateContext } from "../../context/features/states";
 import UploadImage from "../UploadImage";
 import UpdateGroupName from "./UpdateGroupName";
 import DeleteModal from "../DeleteModal";

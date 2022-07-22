@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { FaTimesCircle, FaTrashAlt } from "react-icons/fa";
-import { StateContext } from "../context/states";
-import { UserContext, userIFace } from "../context/users";
+import { StateContext } from "../context/features/states";
+import { UserContext, userIFace } from "../context/features/users";
 import DeleteModal from "./DeleteModal";
 
 interface propsIFace {

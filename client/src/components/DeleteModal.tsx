@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StateContext } from "../context/states";
+import { StateContext } from "../context/features/states";
 
 interface propsIFace {
   text: string;

@@ -2,11 +2,11 @@ import DummyProfilePic from "../assets/images/dummy-profile-pic.png";
 import { BsGear, BsPencilFill } from "react-icons/bs";
 import UpdateProfile from "./UpdateProfile";
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/users";
-import { AuthContext } from "../context/auth";
-import { ReqContext } from "../context/request";
+import { UserContext } from "../context/features/users";
+import { AuthContext } from "../context/features/auth";
+import { ReqContext } from "../context/features/request";
 import UploadImage from "./UploadImage";
-import { StateContext } from "../context/states";
+import { StateContext } from "../context/features/states";
 
 export interface propsIFace {
   isActive: boolean;

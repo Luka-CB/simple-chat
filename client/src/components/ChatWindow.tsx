@@ -3,19 +3,19 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { FiSend } from "react-icons/fi";
 import { BsEmojiSmile } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
-import { MessageContext } from "../context/message";
-import { AuthContext } from "../context/auth";
+import { MessageContext } from "../context/features/message";
+import { AuthContext } from "../context/features/auth";
 import { formatDistanceToNow } from "date-fns";
-import { SocketContext } from "../context/socket";
+import { SocketContext } from "../context/features/socket";
 import { v4 as uuidv4 } from "uuid";
 import ScrollToBottom from "react-scroll-to-bottom";
 import Picker from "emoji-picker-react";
-import { ChatContext } from "../context/chat";
-import { StateContext } from "../context/states";
+import { ChatContext } from "../context/features/chat";
+import { StateContext } from "../context/features/states";
+import { UnreadMsgContext } from "../context/features/unreadMsg";
 
 const ChatWindow = () => {
   const [msgText, setMsgText] = useState("");
-  const [showChat, setShowChat] = useState(false);
   const [chosenEmoji, setChosenEmoji] = useState<any>(null);
   const [showEmojiWindow, setShowEmojiWindow] = useState(false);
 
@@ -24,7 +24,13 @@ const ChatWindow = () => {
   };
 
   const { user } = useContext(AuthContext);
-  const { showUpdateGroupNameHandler } = useContext(StateContext);
+  const {
+    showUpdateGroupNameHandler,
+    showChatWindow,
+    showChatWindowHandler,
+    chat,
+  } = useContext(StateContext);
+
   const {
     liveMessages,
     setLiveMessages,
@@ -50,6 +56,8 @@ const ChatWindow = () => {
 
   const { setChatId } = useContext(ChatContext);
 
+  const { createUnreadMsg } = useContext(UnreadMsgContext);
+
   const [searchParams] = useSearchParams();
 
   const chatId = searchParams.get("chatId");
@@ -59,15 +67,16 @@ const ChatWindow = () => {
 
   useEffect(() => {
     if (chatId) {
-      setShowChat(true);
+      showChatWindowHandler(true, user.id);
       getMessages(chatId);
+      socket?.emit("updateWindowState", user.id, chatId);
     }
 
     if (groupId) {
-      setShowChat(true);
+      showChatWindowHandler(true, "");
       getGroupMessages(groupId);
     }
-  }, [chatId, groupId]);
+  }, [chatId, groupId, socket]);
 
   useEffect(() => {
     if (chosenEmoji) {
@@ -98,6 +107,13 @@ const ChatWindow = () => {
       (user) => user.userId === receiver?._id
     );
 
+    const isChatOpen = usersOnline?.some(
+      (userOnline) =>
+        userOnline.userId === receiver?._id &&
+        userOnline.chatWindow.chatId === chatId
+    );
+    console.log(isChatOpen);
+
     const msgData = {
       message: msgText,
       date: new Date(),
@@ -110,6 +126,20 @@ const ChatWindow = () => {
     if (!msgText) alert("please provide message!");
 
     createMessage(msgData);
+
+    if (!isChatOpen && msgData.receiverId) {
+      createUnreadMsg({
+        message: msgData.message,
+        senderId: msgData.senderId,
+        recieverId: msgData.receiverId,
+      });
+
+      socket?.emit("sendUnreadMessage", {
+        message: msgData.message,
+        senderId: msgData.senderId,
+        receiverId: msgData.receiverId,
+      });
+    }
   };
 
   const createGroupMsgHandler = () => {
@@ -130,8 +160,9 @@ const ChatWindow = () => {
 
   const chatToggleHandler = () => {
     socket?.emit("closeChat", groupId);
+    socket?.emit("updateWindowState", user.id);
 
-    setShowChat(false);
+    showChatWindowHandler(false, "");
     setChatId("");
     showUpdateGroupNameHandler(false);
     navigate({
@@ -142,7 +173,7 @@ const ChatWindow = () => {
 
   return (
     <div className="chat-window" onClick={() => setShowEmojiWindow(false)}>
-      {showChat ? (
+      {showChatWindow ? (
         <>
           <div className="chat-area">
             <div onClick={chatToggleHandler} className="close-chat">

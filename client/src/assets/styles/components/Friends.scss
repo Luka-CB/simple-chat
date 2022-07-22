@@ -102,6 +102,8 @@
       }
 
       .col-2 {
+        display: flex;
+
         button {
           border: none;
           outline: none;
@@ -119,6 +121,26 @@
             box-shadow: 1px 1px 10px $success-hover;
             background-color: $success-hover;
             color: $light;
+          }
+        }
+
+        .chat {
+          position: relative;
+
+          .badge {
+            position: absolute;
+            bottom: 50%;
+            right: 0;
+            background-color: $danger;
+            color: $light;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Courier New", Courier, monospace;
           }
         }
       }

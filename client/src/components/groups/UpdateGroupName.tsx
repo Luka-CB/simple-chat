@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { GroupContext } from "../../context/group";
-import { StateContext } from "../../context/states";
+import { GroupContext } from "../../context/features/group";
+import { StateContext } from "../../context/features/states";
 
 interface propsIFace {
   groupName: string;

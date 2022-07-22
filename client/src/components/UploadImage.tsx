@@ -1,10 +1,10 @@
 import DummyProfilePic from "../assets/images/dummy-profile-pic.png";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import React, { useContext, useEffect, useState } from "react";
-import { StateContext } from "../context/states";
+import { StateContext } from "../context/features/states";
 import axios from "axios";
-import { UserContext } from "../context/users";
-import { GroupContext } from "../context/group";
+import { UserContext } from "../context/features/users";
+import { GroupContext } from "../context/features/group";
 
 interface propsIFace {
   avatar: string | undefined;

@@ -3,11 +3,19 @@ let groups = [];
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+    users.push({ userId, socketId, chatWindow: { chatId: "", groupId: "" } });
 };
 
 const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
+};
+
+const updateUsers = (userId, chatId, groupId) => {
+  const user = users.find((user) => user.userId === userId);
+
+  const chatWindow = { chatId, groupId };
+
+  if (user) user.chatWindow = chatWindow;
 };
 
 const getUsers = () => {
@@ -37,4 +45,5 @@ module.exports = {
   addGroup,
   getGroups,
   removeGroup,
+  updateUsers,
 };

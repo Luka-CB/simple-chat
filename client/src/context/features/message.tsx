@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, ReactNode, useState, useContext } from "react";
 import { SocketContext } from "./socket";
+import { StateContext } from "./states";
 
 interface childrenIFace {
   children: ReactNode;
@@ -59,6 +60,7 @@ export const MessageContext = createContext({} as messageContextIFace);
 
 const MessageProvider = ({ children }: childrenIFace) => {
   const { socket } = useContext(SocketContext);
+  const { showChatWindow } = useContext(StateContext);
 
   const [messages, setMessages] = useState<messagesIFace[]>([]);
   const [groupMessages, setGroupMessages] = useState<messagesIFace[]>([]);

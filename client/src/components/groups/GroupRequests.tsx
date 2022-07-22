@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import DummyProfilePic from "../../assets/images/dummy-profile-pic.png";
-import { ReqContext } from "../../context/request";
+import { ReqContext } from "../../context/features/request";
 
 interface propsIFace {
   showModal: boolean;
@@ -47,44 +47,44 @@ const GroupRequests: React.FC<propsIFace> = ({
   };
 
   return (
-    <div className='group-requests-bg' onClick={hideModal}>
+    <div className="group-requests-bg" onClick={hideModal}>
       <div
-        className='group-requests-container'
+        className="group-requests-container"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='header'>
-          <h4 id='count'>
+        <div className="header">
+          <h4 id="count">
             Requests: <span>{groupRequests?.length}</span>
           </h4>
-          <AiOutlineCloseCircle id='close-icon' onClick={hideModal} />
+          <AiOutlineCloseCircle id="close-icon" onClick={hideModal} />
         </div>
 
-        <div className='requests-wrapper'>
-          {groupRequests?.length === 0 && <p id='no-reqs'>No Requests!</p>}
+        <div className="requests-wrapper">
+          {groupRequests?.length === 0 && <p id="no-reqs">No Requests!</p>}
           {groupRequests?.map((req, i) => (
-            <div className='request' key={req._id}>
-              <div className='col-one'>
+            <div className="request" key={req._id}>
+              <div className="col-one">
                 {req.from?.avatar ? (
-                  <img src={req.from.avatar} alt='dummy pic' />
+                  <img src={req.from.avatar} alt="dummy pic" />
                 ) : (
-                  <img src={DummyProfilePic} alt='dummy pic' />
+                  <img src={DummyProfilePic} alt="dummy pic" />
                 )}
-                <h5 id='name' title={req.from.username}>
+                <h5 id="name" title={req.from.username}>
                   {req.from.username?.length > 17
                     ? req.from.username.substring(0, 17) + "..."
                     : req.from.username}
                 </h5>
               </div>
-              <div className='col-two'>
+              <div className="col-two">
                 <button
                   onClick={() => acceptRequestHandler(req._id, i)}
-                  id='accept'
+                  id="accept"
                 >
                   {accIndex === i ? "...." : "Accept"}
                 </button>
                 <button
                   onClick={() => rejectRequestHandler(req._id, i)}
-                  id='reject'
+                  id="reject"
                 >
                   {rejIndex === i ? "...." : "Reject"}
                 </button>

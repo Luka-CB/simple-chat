@@ -7,8 +7,8 @@ import {
   FaUserFriends,
 } from "react-icons/fa";
 import DummyProfilePic from "../assets/images/dummy-profile-pic.png";
-import { ReqContext } from "../context/request";
-import { UserContext } from "../context/users";
+import { ReqContext } from "../context/features/request";
+import { UserContext } from "../context/features/users";
 
 const SearchFriend = () => {
   const [query, setQuery] = useState("");

@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DummyProfilePic from "../assets/images/dummy-profile-pic.png";
-import { ChatContext } from "../context/chat";
-import { FriendContext } from "../context/friend";
-import { SocketContext } from "../context/socket";
+import { ChatContext } from "../context/features/chat";
+import { FriendContext } from "../context/features/friend";
+import { SocketContext } from "../context/features/socket";
+import { UnreadMsgContext } from "../context/features/unreadMsg";
 import { propsIFace } from "./Profile";
 import SearchFriend from "./SearchFriend";
 
@@ -20,8 +21,10 @@ const Friends: React.FC<propsIFace> = ({ isActive }) => {
     unfrSuccess,
   } = useContext(FriendContext);
 
-  const { usersOnline } = useContext(SocketContext);
+  const { usersOnline, unreadMsgs, setUnreadMsgs } = useContext(SocketContext);
   const { getChat, chatId } = useContext(ChatContext);
+  const { fetchUnreadMsgs, dataBaseUnreadMsgs, removeUnreadMsgs } =
+    useContext(UnreadMsgContext);
 
   const navigate = useNavigate();
 
@@ -43,12 +46,26 @@ const Friends: React.FC<propsIFace> = ({ isActive }) => {
     }
   }, [chatId]);
 
+  useEffect(() => {
+    if (dataBaseUnreadMsgs) {
+      setUnreadMsgs(dataBaseUnreadMsgs);
+    }
+
+    fetchUnreadMsgs();
+  }, [dataBaseUnreadMsgs]);
+
   const unfriendHandler = (friendId: string, i: number) => {
     setFrIndex(i);
     unfriend(friendId);
   };
 
   const startChatHandler = (userId: string, i: number) => {
+    const filteredUnreadMsgs = unreadMsgs.filter(
+      (msg) => msg.senderId !== userId
+    );
+    setUnreadMsgs(filteredUnreadMsgs);
+    removeUnreadMsgs(userId);
+
     setStartChatIndex(i);
     getChat(userId);
   };
@@ -70,6 +87,10 @@ const Friends: React.FC<propsIFace> = ({ isActive }) => {
         {friends?.map((friend, i) => {
           const isOnline = usersOnline?.some(
             (user) => user.userId === friend._id
+          );
+
+          const unreadMsgCount = unreadMsgs.filter(
+            (msg) => msg.senderId === friend._id
           );
 
           return (
@@ -96,12 +117,20 @@ const Friends: React.FC<propsIFace> = ({ isActive }) => {
                 >
                   {frIndex === i ? "....." : "Unfriend"}
                 </button>
-                <button
-                  onClick={() => startChatHandler(friend._id, i)}
-                  className="start-chat-btn"
-                >
-                  {startChatIndex === i ? "...." : "Chat"}
-                </button>
+                <div className="chat">
+                  <button
+                    onClick={() => startChatHandler(friend._id, i)}
+                    className="start-chat-btn"
+                  >
+                    {startChatIndex === i ? "...." : "Chat"}
+                  </button>
+                  {unreadMsgs.length > 0 &&
+                    unreadMsgs.some((msg) => msg.senderId === friend._id) && (
+                      <div className="badge">
+                        <span>{unreadMsgCount.length}</span>
+                      </div>
+                    )}
+                </div>
               </div>
             </div>
           );

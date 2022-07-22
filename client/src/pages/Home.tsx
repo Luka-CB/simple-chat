@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import MainPageImg from "../assets/images/simple-chat-pic-1.png";
 import Header from "../components/Header";
-import { AuthContext } from "../context/auth";
+import { AuthContext } from "../context/features/auth";
 
 const Home = () => {
   const { user } = useContext(AuthContext);

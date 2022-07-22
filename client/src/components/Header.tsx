@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import DummyProfPic from "../assets/images/Dummy-profile-pic.png";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth";
+import { AuthContext } from "../context/features/auth";
 
 const Header = () => {
   const { user, logout, logoutSuccess } = useContext(AuthContext);

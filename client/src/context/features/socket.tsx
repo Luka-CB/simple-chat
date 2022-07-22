@@ -17,6 +17,16 @@ interface childrenIFace {
 interface usersOnlineIFace {
   userId: string;
   socketId: string;
+  chatWindow: {
+    chatId: string;
+    groupId: string;
+  };
+}
+
+interface unreadMsgsIFace {
+  message: string;
+  senderId: string;
+  recieverId: string | undefined;
 }
 
 interface socketContextIFace {
@@ -27,6 +37,9 @@ interface socketContextIFace {
   setLiveMessages: any;
   liveGroupMessages: messagesIFace | null;
   setLiveGroupMessages: any;
+  unreadMsgs: unreadMsgsIFace[];
+  setUnreadMsgs: any;
+  setUsersOnline: any;
 }
 
 export const SocketContext = createContext({} as socketContextIFace);
@@ -38,6 +51,7 @@ const SocketProvider = ({ children }: childrenIFace) => {
   const [liveMessages, setLiveMessages] = useState<messagesIFace | null>(null);
   const [liveGroupMessages, setLiveGroupMessages] =
     useState<messagesIFace | null>(null);
+  const [unreadMsgs, setUnreadMsgs] = useState<unreadMsgsIFace[]>([]);
 
   const [searchParams] = useSearchParams();
   const groupId = searchParams.get("groupId");
@@ -49,7 +63,7 @@ const SocketProvider = ({ children }: childrenIFace) => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    socket?.emit("addUser", user.id);
+    socket?.emit("addUser", user.id, false);
     socket?.on("getUsers", (users: any) => {
       setUsersOnline(users);
     });
@@ -72,6 +86,17 @@ const SocketProvider = ({ children }: childrenIFace) => {
       });
     });
 
+    socket?.on("getUnreadMessage", (data) => {
+      setUnreadMsgs((prev) => [
+        ...prev,
+        {
+          message: data.message,
+          senderId: data.senderId,
+          recieverId: data.recieverId,
+        },
+      ]);
+    });
+
     socket?.on("getGroupMessage", (data) => {
       setLiveGroupMessages({
         author: data.author,
@@ -84,11 +109,14 @@ const SocketProvider = ({ children }: childrenIFace) => {
   const contextData = {
     socket,
     usersOnline,
+    setUsersOnline,
     groupsOnline,
     liveMessages,
     setLiveMessages,
     liveGroupMessages,
     setLiveGroupMessages,
+    unreadMsgs,
+    setUnreadMsgs,
   };
 
   return (
